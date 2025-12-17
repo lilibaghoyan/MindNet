@@ -1,0 +1,3738 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MindNet - Community Management Platform</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: linear-gradient(135deg, #e8f4f8 0%, #f0f9ff 50%, #f5f8ff 100%);
+      color: #1e293b;
+      min-height: 100%;
+      overflow-x: hidden;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    /* Navigation */
+    .nav {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-placeholder {
+      width: 40px;
+      height: 40px;
+      /* background: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 100%); */
+      /* border: 2px solid #bfdbfe; */
+      /* border-radius: 10px; */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /* font-size: 9px; */
+      /* color: #64748b; */
+      /* text-align: center; */
+      /* line-height: 1.2; */
+      /* padding: 2px; */
+      /* font-weight: 500; */
+    }
+
+    .logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    }
+    .app-name {
+      font-size: 20px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border-radius: 12px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: inherit;
+      font-family: inherit;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
+      color: white;
+      box-shadow: 0 2px 8px rgba(14, 165, 233, 0.25);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(14, 165, 233, 0.35);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: #0ea5e9;
+      border: 2px solid #bfdbfe;
+    }
+
+    .btn-secondary:hover {
+      background: #f0f9ff;
+      border-color: #0ea5e9;
+    }
+
+    .btn-ghost {
+      background: none;
+      color: #64748b;
+      padding: 8px 12px;
+    }
+
+    .btn-ghost:hover {
+      background: #f1f5f9;
+      color: #0ea5e9;
+    }
+
+    .btn-danger {
+      background: #ef4444;
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #dc2626;
+      transform: translateY(-2px);
+    }
+
+    .btn-success {
+      background: #10b981;
+      color: white;
+    }
+
+    .btn-success:hover {
+      background: #059669;
+      transform: translateY(-2px);
+    }
+
+    .btn-small {
+      padding: 6px 12px;
+      font-size: 13px;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      width: 100%;
+    }
+
+    .screen-content {
+      display: none;
+      min-height: 80%;
+      padding-bottom: 40px;
+      width: 100%;
+    }
+
+    .screen-content.active {
+      display: block;
+    }
+
+    /* Cards */
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+      margin-bottom: 16px;
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .card-flat {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+      margin-bottom: 16px;
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 60px 20px;
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #dbeafe 100%);
+      border-radius: 24px;
+      margin-bottom: 40px;
+    }
+
+    .hero h1 {
+      font-size: 36px;
+      margin: 0 0 12px 0;
+      background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: #64748b;
+      margin: 0 0 32px 0;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      border-bottom: 2px solid #e0f2fe;
+      padding-bottom: 0;
+      overflow-x: auto;
+    }
+
+    .tab {
+      padding: 12px 24px;
+      background: none;
+      border: none;
+      color: #64748b;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-bottom: 3px solid transparent;
+      white-space: nowrap;
+      font-size: 15px;
+      position: relative;
+      font-family: inherit;
+    }
+
+    .tab.active {
+      color: #0ea5e9;
+      border-bottom-color: #0ea5e9;
+    }
+
+    .tab:hover {
+      color: #0ea5e9;
+      background: rgba(14, 165, 233, 0.05);
+    }
+
+    .tab-badge {
+      background: #0ea5e9;
+      color: white;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 10px;
+      margin-left: 6px;
+      font-weight: 700;
+    }
+
+    /* Form Elements */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 8px;
+      color: #334155;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .form-input, .form-textarea, .form-select {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e0f2fe;
+      border-radius: 12px;
+      font-size: 15px;
+      transition: all 0.3s ease;
+      background: #f8fafc;
+      color: #1e293b;
+      font-family: inherit;
+    }
+
+    .form-input:focus, .form-textarea:focus, .form-select:focus {
+      outline: none;
+      border-color: #0ea5e9;
+      background: white;
+      box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1);
+    }
+
+    .form-textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    /* Status Badges */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .status-open {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .status-progress {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .status-completed {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    .status-pending {
+      background: #fce7f3;
+      color: #9f1239;
+    }
+
+    /* Issue Item */
+    .issue-item {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+
+    .issue-item:hover {
+      border-color: #0ea5e9;
+      box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15);
+      transform: translateX(4px);
+    }
+
+    .issue-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    .issue-title {
+      font-weight: 700;
+      color: #1e293b;
+      margin: 0 0 6px 0;
+      font-size: 16px;
+    }
+
+    .issue-meta {
+      font-size: 13px;
+      color: #64748b;
+    }
+
+    .issue-description {
+      color: #475569;
+      font-size: 14px;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* Timeline */
+    .timeline {
+      position: relative;
+      padding-left: 32px;
+      margin: 32px 0;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 8px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, #0ea5e9 0%, #e0f2fe 100%);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 28px;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -28px;
+      top: 2px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: white;
+      border: 3px solid #94a3b8;
+    }
+
+    .timeline-item.completed::before {
+      background: #0ea5e9;
+      border-color: #0ea5e9;
+    }
+
+    .timeline-date {
+      font-size: 12px;
+      color: #94a3b8;
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+
+    .timeline-content {
+      font-size: 14px;
+      color: #475569;
+    }
+
+    /* Thread Item */
+    .thread-item {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+
+    .thread-item:hover {
+      border-color: #0ea5e9;
+      box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15);
+    }
+
+    .thread-header {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    .avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .thread-info {
+      flex: 1;
+    }
+
+    .thread-title {
+      font-weight: 700;
+      color: #1e293b;
+      margin: 0 0 6px 0;
+      font-size: 16px;
+    }
+
+    .thread-meta {
+      font-size: 13px;
+      color: #64748b;
+    }
+
+    .thread-stats {
+      display: flex;
+      gap: 16px;
+      margin-top: 12px;
+      font-size: 13px;
+      color: #64748b;
+    }
+
+    /* Filter Chips */
+    .filter-chips {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .filter-chip {
+      padding: 8px 16px;
+      border-radius: 20px;
+      background: white;
+      border: 2px solid #e0f2fe;
+      color: #64748b;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .filter-chip.active {
+      background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
+      color: white;
+      border-color: #0ea5e9;
+    }
+
+    .filter-chip:hover {
+      border-color: #0ea5e9;
+      color: #0ea5e9;
+    }
+
+    .filter-chip.active:hover {
+      color: white;
+    }
+
+    /* Announcement Item */
+    .announcement-item {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-left: 4px solid #0ea5e9;
+    }
+
+    .announcement-item:hover {
+      box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15);
+      transform: translateX(4px);
+    }
+
+    .announcement-item.pending {
+      border-left-color: #f59e0b;
+      opacity: 0.8;
+    }
+
+    .announcement-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+      gap: 16px;
+    }
+
+    .announcement-title {
+      font-weight: 700;
+      color: #1e293b;
+      margin: 0 0 6px 0;
+      font-size: 18px;
+    }
+
+    .announcement-meta {
+      font-size: 13px;
+      color: #64748b;
+    }
+
+    .announcement-content {
+      color: #475569;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    /* Profile Section */
+    .profile-header {
+      background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
+      border-radius: 16px;
+      padding: 32px 24px;
+      margin-bottom: 24px;
+      color: white;
+      text-align: center;
+    }
+
+    .profile-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      font-size: 36px;
+      font-weight: 700;
+      color: #0ea5e9;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .profile-name {
+      font-size: 24px;
+      font-weight: 700;
+      margin: 0 0 6px 0;
+    }
+
+    .profile-email {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    /* Community Card */
+    .community-card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+      transition: all 0.3s ease;
+      border: 2px solid #e0f2fe;
+      cursor: pointer;
+    }
+
+    .community-card:hover {
+      border-color: #0ea5e9;
+      box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .community-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      margin-bottom: 16px;
+    }
+
+    .community-name {
+      font-weight: 700;
+      color: #1e293b;
+      margin: 0 0 8px 0;
+      font-size: 18px;
+    }
+
+    .community-meta {
+      font-size: 13px;
+      color: #64748b;
+      margin-bottom: 12px;
+    }
+
+    .community-description {
+      color: #475569;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .community-stats {
+      display: flex;
+      gap: 16px;
+      font-size: 13px;
+      color: #64748b;
+    }
+
+    /* Document Item */
+    .document-item {
+      background: white;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: all 0.3s ease;
+      border: 2px solid #e0f2fe;
+    }
+
+    .document-item:hover {
+      border-color: #0ea5e9;
+      box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15);
+    }
+
+    .document-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .document-info {
+      flex: 1;
+    }
+
+    .document-name {
+      font-weight: 600;
+      color: #1e293b;
+      margin: 0 0 4px 0;
+      font-size: 14px;
+    }
+
+    .document-meta {
+      font-size: 12px;
+      color: #64748b;
+    }
+
+    /* Quest Card */
+    .quest-card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+      border: 2px solid #e0f2fe;
+      transition: all 0.3s ease;
+    }
+
+    .quest-card:hover {
+      border-color: #0ea5e9;
+      box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .quest-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .quest-title {
+      font-weight: 700;
+      color: #1e293b;
+      margin: 0 0 6px 0;
+      font-size: 16px;
+    }
+
+    .quest-description {
+      color: #475569;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .quest-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .difficulty-badge {
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .difficulty-easy {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    .difficulty-medium {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .difficulty-hard {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .reward-badge {
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* Verification Code Input */
+    .code-input-group {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin: 32px 0;
+    }
+
+    .code-input {
+      width: 56px;
+      height: 64px;
+      text-align: center;
+      font-size: 28px;
+      font-weight: 700;
+      border: 2px solid #e0f2fe;
+      border-radius: 12px;
+      background: #f8fafc;
+      color: #1e293b;
+      transition: all 0.3s ease;
+    }
+
+    .code-input:focus {
+      outline: none;
+      border-color: #0ea5e9;
+      background: white;
+      box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1);
+    }
+
+    /* Search Bar */
+    .search-bar {
+      position: relative;
+      margin-bottom: 24px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 14px 48px 14px 48px;
+      border: 2px solid #e0f2fe;
+      border-radius: 16px;
+      font-size: 15px;
+      background: white;
+      transition: all 0.3s ease;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: #0ea5e9;
+      box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 20px;
+      color: #94a3b8;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      padding: 20px;
+    }
+
+    .modal {
+      background: white;
+      border-radius: 24px;
+      padding: 32px;
+      max-width: 500px;
+      width: 100%;
+      max-height: 90%;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .modal h2 {
+      margin: 0 0 8px 0;
+      color: #1e293b;
+      font-size: 24px;
+    }
+
+    .modal p {
+      margin: 0 0 24px 0;
+      color: #64748b;
+      font-size: 15px;
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .empty-icon {
+      font-size: 64px;
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+
+    .empty-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1e293b;
+      margin: 0 0 8px 0;
+    }
+
+    .empty-description {
+      font-size: 15px;
+      color: #64748b;
+    }
+
+    /* Notification Item */
+    .notification-item {
+      background: white;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+      display: flex;
+      gap: 16px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: 2px solid transparent;
+    }
+
+    .notification-item:hover {
+      border-color: #0ea5e9;
+      box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15);
+    }
+
+    .notification-item.unread {
+      background: #f0f9ff;
+      border-color: #bfdbfe;
+    }
+
+    .notification-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .notification-content {
+      flex: 1;
+    }
+
+    .notification-title {
+      font-weight: 600;
+      color: #1e293b;
+      margin: 0 0 4px 0;
+      font-size: 14px;
+    }
+
+    .notification-text {
+      font-size: 13px;
+      color: #64748b;
+      margin-bottom: 4px;
+    }
+
+    .notification-time {
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    /* Activity Item */
+    .activity-item {
+      padding: 16px 0;
+      border-bottom: 1px solid #e0f2fe;
+      display: flex;
+      gap: 16px;
+    }
+
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+
+    .activity-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .activity-content {
+      flex: 1;
+    }
+
+    .activity-text {
+      font-size: 14px;
+      color: #475569;
+      margin-bottom: 4px;
+      line-height: 1.5;
+    }
+
+    .activity-time {
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    /* Settings Section */
+    .settings-section {
+      margin-bottom: 32px;
+    }
+
+    .settings-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1e293b;
+      margin: 0 0 16px 0;
+    }
+
+    .settings-item {
+      background: white;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .settings-info {
+      flex: 1;
+    }
+
+    .settings-label {
+      font-weight: 600;
+      color: #1e293b;
+      margin: 0 0 4px 0;
+      font-size: 14px;
+    }
+
+    .settings-description {
+      font-size: 13px;
+      color: #64748b;
+    }
+
+    /* Toggle Switch */
+    .toggle-switch {
+      position: relative;
+      width: 48px;
+      height: 28px;
+      background: #cbd5e1;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .toggle-switch.active {
+      background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
+    }
+
+    .toggle-switch::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 22px;
+      height: 22px;
+      background: white;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .toggle-switch.active::after {
+      left: 23px;
+    }
+
+    /* Achievement Badge */
+    .achievement-badge {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      border: 2px solid #e0f2fe;
+    }
+
+    .achievement-icon {
+      font-size: 40px;
+      margin-bottom: 12px;
+    }
+
+    .achievement-name {
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+
+    .achievement-description {
+      font-size: 12px;
+      color: #64748b;
+    }
+
+    .achievement-badge.locked {
+      opacity: 0.4;
+      filter: grayscale(1);
+    }
+
+    /* Member Item */
+    .member-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px;
+      background: white;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      transition: all 0.3s ease;
+    }
+
+    .member-item:hover {
+      box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15);
+      transform: translateX(4px);
+    }
+
+    .member-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .member-info {
+      flex: 1;
+    }
+
+    .member-name {
+      font-weight: 700;
+      color: #1e293b;
+      margin: 0 0 4px 0;
+      font-size: 15px;
+    }
+
+    .member-role {
+      font-size: 13px;
+      color: #64748b;
+    }
+
+    /* Channel Item */
+    .channel-item {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 12px;
+      border-left: 4px solid #0ea5e9;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .channel-item:hover {
+      box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15);
+      transform: translateX(4px);
+    }
+
+    .channel-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    .channel-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .channel-info {
+      flex: 1;
+    }
+
+    .channel-name {
+      font-weight: 700;
+      color: #1e293b;
+      margin: 0 0 4px 0;
+      font-size: 16px;
+    }
+
+    .channel-category {
+      font-size: 13px;
+      color: #64748b;
+    }
+
+    .channel-description {
+      color: #475569;
+      font-size: 14px;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* Admin Dashboard */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
+      color: white;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 2px 8px rgba(14, 165, 233, 0.25);
+    }
+
+    .stat-label {
+      font-size: 14px;
+      opacity: 0.9;
+      margin-bottom: 8px;
+    }
+
+    .stat-value {
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .stat-change {
+      font-size: 13px;
+      opacity: 0.9;
+    }
+
+    /* Home Card */
+    .home-card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 2px solid #e0f2fe;
+    }
+
+    .home-card:hover {
+      border-color: #0ea5e9;
+      box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15);
+      transform: translateY(-2px);
+    }
+
+    /* Comment Item */
+    .comment-item {
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+      border: 2px solid #e0f2fe;
+    }
+
+    .comment-header {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .comment-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .comment-info {
+      flex: 1;
+    }
+
+    .comment-author {
+      font-weight: 600;
+      color: #1e293b;
+      font-size: 14px;
+      margin-bottom: 2px;
+    }
+
+    .comment-time {
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    .comment-text {
+      color: #475569;
+      font-size: 14px;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* Grid */
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+
+    .grid-4 {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+
+    /* Screen Selector */
+    .screen-nav {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+      background: white;
+      border-radius: 16px;
+      padding: 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .screen-nav select {
+      padding: 10px 32px 10px 12px;
+      border: 2px solid #e0f2fe;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #0ea5e9;
+      background: white;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .screen-nav select:focus {
+      outline: none;
+      border-color: #0ea5e9;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 28px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .container {
+        padding: 16px;
+      }
+
+      .card {
+        padding: 20px;
+      }
+
+      .stat-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .code-input {
+        width: 48px;
+        height: 56px;
+        font-size: 24px;
+      }
+
+      .nav-actions {
+        gap: 8px;
+      }
+
+      .btn {
+        padding: 8px 16px;
+        font-size: 13px;
+      }
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(400px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideOut {
+      from {
+        transform: translateX(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateX(400px);
+        opacity: 0;
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body><!-- Toast Notification Container -->
+  <div id="toast-container" style="position: fixed; top: 80px; right: 20px; z-index: 3000; display: flex; flex-direction: column; gap: 12px;"></div><!-- Navigation -->
+  <nav class="nav">
+   <div class="logo-area">
+    <div class="logo-placeholder">
+        <img src="MindNet Transparent.png" alt="MindNet Logo" class="logo-img">
+    </div><span class="app-name" id="app-name">MindNet</span>
+   </div>
+   <div class="nav-actions" id="nav-actions"><button class="btn btn-ghost" onclick="navigateTo('home')">Home</button> <button class="btn btn-primary" onclick="navigateTo('signin')">Sign In</button>
+   </div>
+  </nav><!-- Screen Selector (for demo purposes) -->
+  <div class="screen-nav"><select id="screen-selector" onchange="navigateTo(this.value)"> <optgroup label="🏠 Public"> <option value="home">Home</option> <option value="explore">Explore Communities</option> <option value="search">Search</option> </optgroup> <optgroup label="🔐 Auth"> <option value="signin">Sign In</option> <option value="signup">Sign Up</option> <option value="forgot-password">Forgot Password</option> <option value="verify-email">Verify Email</option> <option value="reset-success">Reset Success</option> </optgroup> <optgroup label="👋 Onboarding"> <option value="onboarding">Onboarding</option> <option value="create-community">Create Community</option> <option value="join-community">Join Community</option> <option value="home-verified">Home Verified</option> </optgroup> <optgroup label="🏘️ Main"> <option value="dashboard">Dashboard</option> <option value="community">Community</option> <option value="documents">Documents</option> <option value="quests">Quests</option> </optgroup> <optgroup label="🔧 Issues"> <option value="issues">Issues</option> <option value="issue-detail">Issue Detail</option> <option value="report-issue">Report Issue</option> </optgroup> <optgroup label="📢 Announcements"> <option value="announcements">Announcements</option> <option value="announcement-detail">Announcement Detail</option> <option value="create-announcement">Create Announcement</option> </optgroup> <optgroup label="💬 Forum"> <option value="forum">Forum</option> <option value="thread-detail">Thread Detail</option> <option value="create-thread">Create Thread</option> </optgroup> <optgroup label="📡 Other"> <option value="channels">Channels</option> <option value="notifications">Notifications</option> </optgroup> <optgroup label="👤 Profile"> <option value="profile">Profile</option> <option value="profile-edit">Edit Profile</option> <option value="my-homes">My Homes</option> <option value="profile-homes">My Homes (Old)</option> <option value="home-members">Home Members</option> <option value="settings">Settings</option> <option value="security">Security</option> <option value="notifications-settings">Notification Settings</option> <option value="activity">Activity History</option> </optgroup> <optgroup label="⚙️ Admin"> <option value="admin">Admin Dashboard</option> <option value="admin-members">Member Management</option> <option value="admin-verify">Verifications</option> <option value="admin-documents">Document Management</option> <option value="admin-quests">Quest Management</option> </optgroup> </select>
+  </div><!-- SCREEN: Home -->
+  <div id="screen-home" class="screen-content active">
+   <div class="container">
+    <div class="hero">
+     <h1 id="hero-title">Connect. Collaborate. Build Community.</h1>
+     <p id="hero-subtitle">Join communities that matter to you</p>
+     <div class="hero-buttons"><button class="btn btn-primary" onclick="navigateTo('explore')">Explore Communities</button> <button class="btn btn-secondary" onclick="navigateTo('signup')">Get Started</button>
+     </div>
+    </div>
+    <div class="grid grid-2">
+     <div class="card">
+      <div style="font-size: 48px; text-align: center; margin-bottom: 16px;">
+       🏘️
+      </div>
+      <h3 style="margin: 0 0 8px 0; text-align: center; font-size: 18px;">Multi-Community Platform</h3>
+      <p style="margin: 0; color: #64748b; text-align: center; font-size: 14px; line-height: 1.6;">Join condominiums, student councils, hobby groups, and more</p>
+     </div>
+     <div class="card">
+      <div style="font-size: 48px; text-align: center; margin-bottom: 16px;">
+       🔧
+      </div>
+      <h3 style="margin: 0 0 8px 0; text-align: center; font-size: 18px;">Issue Tracking</h3>
+      <p style="margin: 0; color: #64748b; text-align: center; font-size: 14px; line-height: 1.6;">Report and track problems with real-time updates</p>
+     </div>
+     <div class="card">
+      <div style="font-size: 48px; text-align: center; margin-bottom: 16px;">
+       📢
+      </div>
+      <h3 style="margin: 0 0 8px 0; text-align: center; font-size: 18px;">Announcements</h3>
+      <p style="margin: 0; color: #64748b; text-align: center; font-size: 14px; line-height: 1.6;">Stay informed with important community updates</p>
+     </div>
+     <div class="card">
+      <div style="font-size: 48px; text-align: center; margin-bottom: 16px;">
+       💬
+      </div>
+      <h3 style="margin: 0 0 8px 0; text-align: center; font-size: 18px;">Community Forum</h3>
+      <p style="margin: 0; color: #64748b; text-align: center; font-size: 14px; line-height: 1.6;">Discuss ideas and connect with members</p>
+     </div>
+    </div>
+   </div>
+  </div><!-- SCREEN: Explore -->
+  <div id="screen-explore" class="screen-content">
+   <div class="container">
+    <h1 style="margin: 0 0 8px 0; font-size: 28px;">Explore Communities</h1>
+    <p style="color: #64748b; margin: 0 0 24px 0;">Discover and join communities near you</p>
+    <div class="search-bar"><span class="search-icon">🔍</span> <input type="text" class="search-input" placeholder="Search communities..." onclick="navigateTo('search')">
+    </div>
+    <div class="filter-chips">
+     <div class="filter-chip active" onclick="filterCommunities(this, 'all')">
+      All
+     </div>
+     <div class="filter-chip" onclick="filterCommunities(this, 'condominium')">
+      Condominiums
+     </div>
+     <div class="filter-chip" onclick="filterCommunities(this, 'student')">
+      Student Councils
+     </div>
+     <div class="filter-chip" onclick="filterCommunities(this, 'club')">
+      Clubs
+     </div>
+     <div class="filter-chip" onclick="filterCommunities(this, 'hobby')">
+      Hobby Groups
+     </div>
+    </div>
+    <div class="grid grid-3" id="communities-grid">
+     <div class="community-card" data-category="condominium" onclick="navigateTo('join-community')">
+      <div class="community-icon">
+       🏢
+      </div>
+      <h3 class="community-name">Sunset Valley Residences</h3>
+      <div class="community-meta">
+       Downtown · Condominium
+      </div>
+      <p class="community-description">Modern residential complex with great amenities in the heart of downtown.</p>
+      <div class="community-stats"><span>👥 248 members</span> <span>⭐ 4.8 rating</span>
+      </div>
+     </div>
+     <div class="community-card" data-category="student">
+      <div class="community-icon">
+       🎓
+      </div>
+      <h3 class="community-name">University Student Council</h3>
+      <div class="community-meta">
+       Campus · Student Council
+      </div>
+      <p class="community-description">Official student body representing undergraduate students.</p>
+      <div class="community-stats"><span>👥 1,245 members</span> <span>⭐ 4.6 rating</span>
+      </div>
+     </div>
+     <div class="community-card" data-category="club">
+      <div class="community-icon">
+       ⚽
+      </div>
+      <h3 class="community-name">City Sports Club</h3>
+      <div class="community-meta">
+       Community Center · Sports Club
+      </div>
+      <p class="community-description">Active sports community for fitness enthusiasts of all levels.</p>
+      <div class="community-stats"><span>👥 389 members</span> <span>⭐ 4.9 rating</span>
+      </div>
+     </div>
+     <div class="community-card" data-category="hobby">
+      <div class="community-icon">
+       📚
+      </div>
+      <h3 class="community-name">Mystery Book Club</h3>
+      <div class="community-meta">
+       Virtual · Hobby Group
+      </div>
+      <p class="community-description">Monthly mystery novel discussions for passionate readers.</p>
+      <div class="community-stats"><span>👥 87 members</span> <span>⭐ 4.7 rating</span>
+      </div>
+     </div>
+     <div class="community-card" data-category="condominium">
+      <div class="community-icon">
+       🏙️
+      </div>
+      <h3 class="community-name">Harbor View Towers</h3>
+      <div class="community-meta">
+       Waterfront · Condominium
+      </div>
+      <p class="community-description">Luxury waterfront living with stunning ocean views.</p>
+      <div class="community-stats"><span>👥 156 members</span> <span>⭐ 4.9 rating</span>
+      </div>
+     </div>
+     <div class="community-card" data-category="hobby">
+      <div class="community-icon">
+       🎨
+      </div>
+      <h3 class="community-name">Art &amp; Craft Collective</h3>
+      <div class="community-meta">
+       Studio District · Hobby Group
+      </div>
+      <p class="community-description">Creative space for artists and craft enthusiasts to share ideas.</p>
+      <div class="community-stats"><span>👥 124 members</span> <span>⭐ 4.8 rating</span>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div><!-- SCREEN: Search -->
+  <div id="screen-search" class="screen-content">
+   <div class="container"><button class="btn btn-ghost" onclick="navigateTo('explore')" style="margin-bottom: 24px;">← Back</button>
+    <h1 style="margin: 0 0 24px 0; font-size: 28px;">Search Communities</h1>
+    <div class="search-bar"><span class="search-icon">🔍</span> <input type="text" class="search-input" id="search-input" placeholder="Search by name, location, or category..." oninput="performSearch(this.value)">
+    </div>
+    <div id="search-results"></div>
+   </div>
+  </div><!-- SCREEN: Sign In -->
+  <div id="screen-signin" class="screen-content">
+   <div class="container" style="max-width: 480px; margin-top: 60px;">
+    <div class="card-flat">
+     <h2 style="margin: 0 0 8px 0; font-size: 28px;">Welcome Back</h2>
+     <p style="color: #64748b; margin: 0 0 32px 0;">Sign in to access your communities</p>
+     <form onsubmit="handleSignIn(event)">
+      <div class="form-group"><label class="form-label" for="signin-email">Email Address</label> <input type="email" id="signin-email" class="form-input" placeholder="your.email@example.com" required>
+      </div>
+      <div class="form-group"><label class="form-label" for="signin-password">Password</label> <input type="password" id="signin-password" class="form-input" placeholder="••••••••" required>
+      </div>
+      <div style="text-align: right; margin-bottom: 20px;"><a href="#" onclick="event.preventDefault(); navigateTo('forgot-password');" style="color: #0ea5e9; font-size: 14px; font-weight: 600; text-decoration: none;">Forgot password?</a>
+      </div><button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Sign In</button>
+      <div style="text-align: center; margin-top: 20px; color: #64748b; font-size: 14px;">
+       Don't have an account? <a href="#" onclick="event.preventDefault(); navigateTo('signup');" style="color: #0ea5e9; font-weight: 600; text-decoration: none;">Sign up</a>
+      </div>
+     </form>
+    </div>
+   </div>
+  </div><!-- SCREEN: Sign Up -->
+  <div id="screen-signup" class="screen-content">
+   <div class="container" style="max-width: 480px; margin-top: 60px;">
+    <div class="card-flat">
+     <h2 style="margin: 0 0 8px 0; font-size: 28px;">Create Account</h2>
+     <p style="color: #64748b; margin: 0 0 32px 0;">Join communities and start connecting</p>
+     <form onsubmit="handleSignUp(event)">
+      <div class="form-group"><label class="form-label" for="signup-name">Full Name</label> <input type="text" id="signup-name" class="form-input" placeholder="John Doe" required>
+      </div>
+      <div class="form-group"><label class="form-label" for="signup-email">Email Address</label> <input type="email" id="signup-email" class="form-input" placeholder="your.email@example.com" required>
+      </div>
+      <div class="form-group"><label class="form-label" for="signup-phone">Phone Number</label> <input type="tel" id="signup-phone" class="form-input" placeholder="+1 (555) 123-4567">
+      </div>
+      <div class="form-group"><label class="form-label" for="signup-password">Password</label> <input type="password" id="signup-password" class="form-input" placeholder="••••••••" required>
+      </div><button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Create Account</button>
+      <div style="text-align: center; margin-top: 20px; color: #64748b; font-size: 14px;">
+       Already have an account? <a href="#" onclick="event.preventDefault(); navigateTo('signin');" style="color: #0ea5e9; font-weight: 600; text-decoration: none;">Sign in</a>
+      </div>
+     </form>
+    </div>
+   </div>
+  </div><!-- SCREEN: Forgot Password -->
+  <div id="screen-forgot-password" class="screen-content">
+   <div class="container" style="max-width: 480px; margin-top: 60px;">
+    <div class="card-flat">
+     <div style="text-align: center; margin-bottom: 32px;">
+      <div style="font-size: 64px; margin-bottom: 20px;">
+       🔒
+      </div>
+      <h2 style="margin: 0 0 8px 0; font-size: 28px;">Forgot Password</h2>
+      <p style="color: #64748b; margin: 0;">No worries, we'll send you reset instructions</p>
+     </div>
+     <form onsubmit="handleForgotPassword(event)">
+      <div class="form-group"><label class="form-label" for="reset-email">Email Address</label> <input type="email" id="reset-email" class="form-input" placeholder="your.email@example.com" required>
+      </div><button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Send Reset Code</button> <button type="button" class="btn btn-ghost" style="width: 100%; justify-content: center; margin-top: 12px;" onclick="navigateTo('signin')">Back to Sign In</button>
+     </form>
+    </div>
+   </div>
+  </div><!-- SCREEN: Verify Email -->
+  <div id="screen-verify-email" class="screen-content">
+   <div class="container" style="max-width: 480px; margin-top: 60px;">
+    <div class="card-flat">
+     <div style="text-align: center; margin-bottom: 32px;">
+      <div style="font-size: 64px; margin-bottom: 20px;">
+       📧
+      </div>
+      <h2 style="margin: 0 0 8px 0; font-size: 28px;">Verify Your Email</h2>
+      <p style="color: #64748b; margin: 0;">We sent a verification code to your email</p>
+     </div>
+     <form onsubmit="handleVerifyEmail(event)">
+      <div class="code-input-group"><input type="text" class="code-input" maxlength="1" oninput="moveToNext(this, 0)"> <input type="text" class="code-input" maxlength="1" oninput="moveToNext(this, 1)"> <input type="text" class="code-input" maxlength="1" oninput="moveToNext(this, 2)"> <input type="text" class="code-input" maxlength="1" oninput="moveToNext(this, 3)"> <input type="text" class="code-input" maxlength="1" oninput="moveToNext(this, 4)"> <input type="text" class="code-input" maxlength="1" oninput="moveToNext(this, 5)">
+      </div><button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Verify Email</button>
+      <div style="text-align: center; margin-top: 20px;"><button type="button" class="btn btn-ghost" onclick="resendCode()">Resend Code</button>
+      </div>
+     </form>
+    </div>
+   </div>
+  </div><!-- SCREEN: Reset Success -->
+  <div id="screen-reset-success" class="screen-content">
+   <div class="container" style="max-width: 480px; margin-top: 60px;">
+    <div class="card-flat">
+     <div style="text-align: center;">
+      <div style="font-size: 80px; margin-bottom: 24px;">
+       ✅
+      </div>
+      <h2 style="margin: 0 0 12px 0; font-size: 28px;">Password Reset Successful!</h2>
+      <p style="color: #64748b; margin: 0 0 32px 0; line-height: 1.6;">Your password has been successfully reset. You can now sign in with your new password.</p><button class="btn btn-primary" onclick="navigateTo('signin')" style="padding: 12px 32px;">Go to Sign In</button>
+     </div>
+    </div>
+   </div>
+  </div><!-- SCREEN: Onboarding -->
+  <div id="screen-onboarding" class="screen-content">
+   <div class="container" style="max-width: 600px; margin-top: 60px;">
+    <div style="text-align: center; margin-bottom: 40px;">
+     <div style="font-size: 72px; margin-bottom: 20px;">
+      👋
+     </div>
+     <h1 style="font-size: 32px; margin: 0 0 12px 0;">Welcome to MindNet</h1>
+     <p style="color: #64748b; margin: 0; font-size: 16px;">What would you like to do?</p>
+    </div>
+    <div class="grid" style="gap: 16px;">
+     <div class="card" style="cursor: pointer;" onclick="navigateTo('create-community')">
+      <div style="display: flex; align-items: center; gap: 20px;">
+       <div style="font-size: 56px;">
+        🏗️
+       </div>
+       <div style="flex: 1;">
+        <h3 style="margin: 0 0 6px 0; font-size: 20px;">Create a Community</h3>
+        <p style="margin: 0; color: #64748b; font-size: 14px;">Start a new community and invite members</p>
+       </div>
+       <div style="font-size: 24px; color: #0ea5e9;">
+        →
+       </div>
+      </div>
+     </div>
+     <div class="card" style="cursor: pointer;" onclick="navigateTo('join-community')">
+      <div style="display: flex; align-items: center; gap: 20px;">
+       <div style="font-size: 56px;">
+        🔑
+       </div>
+       <div style="flex: 1;">
+        <h3 style="margin: 0 0 6px 0; font-size: 20px;">Join a Community</h3>
+        <p style="margin: 0; color: #64748b; font-size: 14px;">Enter your access code to join an existing community</p>
+       </div>
+       <div style="font-size: 24px; color: #0ea5e9;">
+        →
+       </div>
+      </div>
+     </div>
+     <div class="card" style="cursor: pointer;" onclick="navigateTo('explore')">
+      <div style="display: flex; align-items: center; gap: 20px;">
+       <div style="font-size: 56px;">
+        🔍
+       </div>
+       <div style="flex: 1;">
+        <h3 style="margin: 0 0 6px 0; font-size: 20px;">Explore Communities</h3>
+        <p style="margin: 0; color: #64748b; font-size: 14px;">Browse and discover public communities</p>
+       </div>
+       <div style="font-size: 24px; color: #0ea5e9;">
+        →
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div><!-- SCREEN: Create Community -->
+  <div id="screen-create-community" class="screen-content">
+   <div class="container" style="max-width: 600px; margin-top: 40px;">
+    <h1 style="margin: 0 0 8px 0; font-size: 28px;">Create Community</h1>
+    <p style="color: #64748b; margin: 0 0 32px 0;">Start your own community on MindNet</p>
+    <form onsubmit="handleCreateCommunity(event)">
+     <div class="card-flat">
+      <div class="form-group"><label class="form-label" for="create-name">Community Name</label> <input type="text" id="create-name" class="form-input" placeholder="e.g., Sunset Valley Residences" required>
+      </div>
+      <div class="form-group"><label class="form-label" for="create-type">Community Type</label> <select id="create-type" class="form-select" required> <option value="">Select type...</option> <option value="condominium">Condominium</option> <option value="student">Student Council</option> <option value="club">University Club</option> <option value="hobby">Hobby Group</option> <option value="neighborhood">Neighborhood</option> <option value="other">Other</option> </select>
+      </div>
+      <div class="form-group"><label class="form-label" for="create-description">Description</label> <textarea id="create-description" class="form-textarea" placeholder="Tell us about your community..." required></textarea>
+      </div>
+     </div>
+     <div style="display: flex; gap: 12px; margin-top: 20px;"><button type="submit" class="btn btn-primary" style="flex: 1; justify-content: center;">Create Community</button> <button type="button" class="btn btn-secondary" onclick="navigateTo('onboarding')">Cancel</button>
+     </div>
+    </form>
+   </div>
+  </div><!-- SCREEN: Join Community -->
+  <div id="screen-join-community" class="screen-content">
+   <div class="container" style="max-width: 600px; margin-top: 60px;">
+    <div class="card-flat">
+     <div style="text-align: center; margin-bottom: 32px;">
+      <div style="font-size: 72px; margin-bottom: 20px;">
+       🔑
+      </div>
+      <h2 style="margin: 0 0 8px 0; font-size: 28px;">Join Community</h2>
+      <p style="color: #64748b; margin: 0;">Enter your Home Access Code provided by your community administrator</p>
+     </div>
+     <form onsubmit="handleJoinCommunity(event)">
+      <div class="form-group"><label class="form-label" for="join-code">Home Access Code</label> <input type="text" id="join-code" class="form-input" placeholder="e.g., SVR-A3-302-X7K9" style="font-family: 'Courier New', monospace; text-align: center; font-size: 18px; letter-spacing: 2px;" required>
+       <div style="margin-top: 8px; font-size: 13px; color: #64748b;">
+        💡 This code was provided by your community administrator
+       </div>
+      </div><button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Verify &amp; Join</button> <button type="button" class="btn btn-ghost" style="width: 100%; justify-content: center; margin-top: 12px;" onclick="navigateTo('onboarding')">Back</button>
+     </form>
+    </div>
+   </div>
+  </div><!-- SCREEN: Home Verified -->
+  <div id="screen-home-verified" class="screen-content">
+   <div class="container" style="max-width: 600px; margin-top: 60px;">
+    <div class="card-flat">
+     <div style="text-align: center; margin-bottom: 32px;">
+      <div style="font-size: 80px; margin-bottom: 20px;">
+       ✅
+      </div>
+      <h2 style="margin: 0 0 12px 0; font-size: 28px;">Home Verified!</h2>
+      <p style="color: #64748b; margin: 0;">Your home has been successfully verified</p>
+     </div>
+     <div style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border-radius: 16px; padding: 24px; margin-bottom: 24px;">
+      <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
+       <div style="font-size: 48px;">
+        🏠
+       </div>
+       <div>
+        <h3 style="margin: 0 0 4px 0; font-size: 20px;" id="verified-home-name">Unit A-302</h3>
+        <p style="margin: 0; color: #64748b; font-size: 14px;" id="verified-home-building">Tower A, Floor 3</p>
+       </div>
+      </div>
+      <div style="border-top: 2px solid #bfdbfe; padding-top: 16px; margin-top: 16px;">
+       <div style="font-size: 14px; color: #475569; margin-bottom: 8px;"><strong>Community:</strong> <span id="verified-community-name">Sunset Valley Residences</span>
+       </div>
+       <div style="font-size: 14px; color: #475569; margin-bottom: 8px;"><strong>Address:</strong> <span id="verified-home-address">123 Valley Street, Downtown</span>
+       </div>
+       <div style="font-size: 14px; color: #475569;"><strong>Your Role:</strong> <span id="verified-user-role" style="color: #0ea5e9; font-weight: 600;">Home Admin</span>
+       </div>
+      </div>
+     </div>
+     <div style="background: #fef3c7; border-left: 4px solid #f59e0b; padding: 16px; border-radius: 12px; margin-bottom: 24px;">
+      <div style="display: flex; gap: 12px;">
+       <div style="font-size: 24px;">
+        ℹ️
+       </div>
+       <div style="font-size: 14px; color: #92400e; line-height: 1.6;"><strong>You are the Home Admin!</strong><br>
+         As the first person to join with this code, you can manage home members and their permissions.
+       </div>
+      </div>
+     </div><button class="btn btn-primary" onclick="navigateTo('dashboard')" style="width: 100%; justify-content: center; margin-bottom: 12px;">Go to Dashboard</button> <button class="btn btn-secondary" onclick="navigateTo('profile-homes')" style="width: 100%; justify-content: center;">View My Homes</button>
+    </div>
+   </div>
+  </div><!-- SCREEN: Dashboard -->
+  <div id="screen-dashboard" class="screen-content">
+   <div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; flex-wrap: wrap; gap: 16px;">
+     <div>
+      <h1 style="margin: 0 0 6px 0; font-size: 28px;">Welcome back, <span id="dashboard-username">Alex</span>! 👋</h1>
+      <p style="margin: 0; color: #64748b;">Here's what's happening in your communities</p>
+     </div>
+     <div style="display: flex; gap: 12px;"><button class="btn btn-ghost" onclick="navigateTo('notifications')">🔔 <span id="notif-badge" class="tab-badge" style="margin-left: 4px;">2</span></button> <button class="btn btn-primary" onclick="navigateTo('profile')">My Profile</button>
+     </div>
+    </div>
+    <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 32px;">
+     <div class="card" style="text-align: center; cursor: pointer; padding: 20px;" onclick="navigateTo('report-issue')">
+      <div style="font-size: 32px; margin-bottom: 8px;">
+       🔧
+      </div>
+      <div style="font-weight: 600; font-size: 14px; color: #1e293b;">
+       Report Issue
+      </div>
+     </div>
+     <div class="card" style="text-align: center; cursor: pointer; padding: 20px;" onclick="navigateTo('announcements')">
+      <div style="font-size: 32px; margin-bottom: 8px;">
+       📢
+      </div>
+      <div style="font-weight: 600; font-size: 14px; color: #1e293b;">
+       Announcements
+      </div>
+     </div>
+     <div class="card" style="text-align: center; cursor: pointer; padding: 20px;" onclick="navigateTo('forum')">
+      <div style="font-size: 32px; margin-bottom: 8px;">
+       💬
+      </div>
+      <div style="font-weight: 600; font-size: 14px; color: #1e293b;">
+       Forum
+      </div>
+     </div>
+     <div class="card" style="text-align: center; cursor: pointer; padding: 20px;" onclick="navigateTo('documents')">
+      <div style="font-size: 32px; margin-bottom: 8px;">
+       📄
+      </div>
+      <div style="font-weight: 600; font-size: 14px; color: #1e293b;">
+       Documents
+      </div>
+     </div>
+     <div class="card" style="text-align: center; cursor: pointer; padding: 20px;" onclick="navigateTo('quests')">
+      <div style="font-size: 32px; margin-bottom: 8px;">
+       🎯
+      </div>
+      <div style="font-weight: 600; font-size: 14px; color: #1e293b;">
+       Quests
+      </div>
+     </div>
+     <div class="card" style="text-align: center; cursor: pointer; padding: 20px;" onclick="navigateTo('channels')">
+      <div style="font-size: 32px; margin-bottom: 8px;">
+       📡
+      </div>
+      <div style="font-weight: 600; font-size: 14px; color: #1e293b;">
+       Channels
+      </div>
+     </div>
+    </div>
+    <h2 style="margin: 0 0 16px 0; font-size: 22px;">My Communities</h2>
+    <div class="grid grid-2">
+     <div class="card" style="cursor: pointer;" onclick="navigateTo('community')">
+      <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
+       <div style="font-size: 40px;">
+        🏢
+       </div>
+       <div>
+        <h3 style="margin: 0 0 4px 0; font-size: 18px;">Sunset Valley</h3>
+        <div style="font-size: 13px; color: #64748b;">
+         248 members · Condominium
+        </div>
+       </div>
+      </div>
+      <p style="color: #475569; font-size: 14px; line-height: 1.6; margin: 0 0 12px 0;">Modern residential complex in the heart of downtown</p>
+      <div style="display: flex; gap: 12px; font-size: 13px; color: #64748b;"><span>🔧 3 issues</span> <span>📢 2 announcements</span>
+      </div>
+     </div>
+     <div class="card" style="cursor: pointer;">
+      <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
+       <div style="font-size: 40px;">
+        📚
+       </div>
+       <div>
+        <h3 style="margin: 0 0 4px 0; font-size: 18px;">Book Club</h3>
+        <div style="font-size: 13px; color: #64748b;">
+         87 members · Hobby Group
+        </div>
+       </div>
+      </div>
+      <p style="color: #475569; font-size: 14px; line-height: 1.6; margin: 0 0 12px 0;">Monthly mystery book discussions for passionate readers</p>
+      <div style="display: flex; gap: 12px; font-size: 13px; color: #64748b;"><span>💬 12 threads</span> <span>📢 1 announcement</span>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div><!-- SCREEN: Community -->
+  <div id="screen-community" class="screen-content">
+   <div class="container"><button class="btn btn-ghost" onclick="navigateTo('dashboard')" style="margin-bottom: 20px;">← Back to Dashboard</button>
+    <div class="card-flat" style="background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%); color: white; margin-bottom: 24px;">
+     <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 16px;">
+      <div style="font-size: 64px;">
+       🏢
+      </div>
+      <div>
+       <h1 style="margin: 0 0 8px 0; font-size: 28px;">Sunset Valley Residences</h1>
+       <div style="opacity: 0.9; font-size: 15px;">
+        248 members · Condominium Community
+       </div>
+      </div>
+     </div>
+     <p style="margin: 0; line-height: 1.6; opacity: 0.95;">Modern residential complex in the heart of downtown with excellent amenities and vibrant community.</p>
+    </div>
+    <div class="tabs"><button class="tab active" onclick="switchTab(this, 'overview')">Overview</button> <button class="tab" onclick="switchTab(this, 'issues-tab')">Issues <span class="tab-badge">3</span></button> <button class="tab" onclick="switchTab(this, 'forum-tab')">Forum</button> <button class="tab" onclick="switchTab(this, 'announcements-tab')">Announcements</button> <button class="tab" onclick="switchTab(this, 'documents-tab')">Documents</button> <button class="tab" onclick="switchTab(this, 'quests-tab')">Quests</button> <button class="tab" onclick="switchTab(this, 'members-tab')">Members</button>
+    </div>
+    <div id="tab-overview" class="tab-content active-tab">
+     <div class="grid grid-2">
+      <div class="card" style="cursor: pointer;" onclick="navigateTo('issues')">
+       <h3 style="margin: 0 0 16px 0; font-size: 18px;">🔧 Recent Issues</h3>
+       <div style="font-size: 32px; font-weight: 700; color: #0ea5e9; margin-bottom: 8px;">
+        3
+       </div>
+       <p style="margin: 0; color: #64748b; font-size: 14px;">Active maintenance requests</p>
+      </div>
+      <div class="card" style="cursor: pointer;" onclick="navigateTo('announcements')">
+       <h3 style="margin: 0 0 16px 0; font-size: 18px;">📢 Announcements</h3>
+       <div style="font-size: 32px; font-weight: 700; color: #0ea5e9; margin-bottom: 8px;">
+        2
+       </div>
+       <p style="margin: 0; color: #64748b; font-size: 14px;">Unread announcements</p>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div><!-- SCREEN: Issues -->
+  <div id="screen-issues" class="screen-content">
+   <div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
+     <div>
+      <h1 style="margin: 0 0 6px 0; font-size: 28px;">Issue Tracking</h1>
+      <p style="margin: 0; color: #64748b;">Report and track maintenance issues</p>
+     </div><button class="btn btn-primary" onclick="navigateTo('report-issue')">+ Report Issue</button>
+    </div>
+    <div class="filter-chips">
+     <div class="filter-chip active">
+      All Issues
+     </div>
+     <div class="filter-chip">
+      Open
+     </div>
+     <div class="filter-chip">
+      In Progress
+     </div>
+     <div class="filter-chip">
+      Completed
+     </div>
+    </div>
+    <div class="issue-item" onclick="navigateTo('issue-detail')">
+     <div class="issue-header">
+      <div style="flex: 1;">
+       <h3 class="issue-title">Elevator #2 Not Working</h3>
+       <div class="issue-meta">
+        Reported by Sarah Johnson · 2 hours ago · Floor 5
+       </div>
+      </div><span class="status-badge status-progress">In Progress</span>
+     </div>
+     <p class="issue-description">The elevator has been out of service since this morning. Service team has been notified.</p>
+    </div>
+    <div class="issue-item" onclick="navigateTo('issue-detail')">
+     <div class="issue-header">
+      <div style="flex: 1;">
+       <h3 class="issue-title">Pool Heater Malfunction</h3>
+       <div class="issue-meta">
+        Reported by Mike Chen · 1 day ago · Pool Area
+       </div>
+      </div><span class="status-badge status-open">Open</span>
+     </div>
+     <p class="issue-description">Pool water temperature is too cold. The heater needs maintenance.</p>
+    </div>
+    <div class="issue-item">
+     <div class="issue-header">
+      <div style="flex: 1;">
+       <h3 class="issue-title">Parking Lot Light Out</h3>
+       <div class="issue-meta">
+        Reported by Emily Davis · 3 days ago · Parking Level B2
+       </div>
+      </div><span class="status-badge status-completed">Completed</span>
+     </div>
+     <p class="issue-description">Light fixture in parking section B2-15 needs replacement. Fixed on Jan 18.</p>
+    </div>
+   </div>
+  </div><!-- SCREEN: Issue Detail -->
+  <div id="screen-issue-detail" class="screen-content">
+   <div class="container" style="max-width: 800px;"><button class="btn btn-ghost" onclick="navigateTo('issues')" style="margin-bottom: 20px;">← Back to Issues</button>
+    <div class="card-flat">
+     <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; gap: 16px; flex-wrap: wrap;">
+      <div style="flex: 1;">
+       <h1 style="margin: 0 0 12px 0; font-size: 26px;">Elevator #2 Not Working</h1>
+       <div style="display: flex; gap: 16px; flex-wrap: wrap; color: #64748b; font-size: 14px;"><span>📍 Floor 5</span> <span>👤 Sarah Johnson</span> <span>🕐 2 hours ago</span>
+       </div>
+      </div><span class="status-badge status-progress">In Progress</span>
+     </div>
+     <div style="border-top: 2px solid #e0f2fe; padding-top: 20px; margin-bottom: 24px;">
+      <h3 style="margin: 0 0 12px 0; font-size: 16px;">Description</h3>
+      <p style="color: #475569; line-height: 1.6; margin: 0;">The elevator has been out of service since this morning around 8 AM. Residents on floors 5-12 are unable to use it. The display shows an error code. Building management has been notified and a technician is scheduled to arrive.</p>
+     </div>
+     <h3 style="margin: 0 0 16px 0; font-size: 18px;">Activity Timeline</h3>
+     <div class="timeline">
+      <div class="timeline-item completed">
+       <div class="timeline-date">
+        2 hours ago
+       </div>
+       <div class="timeline-content">
+        <strong>Issue reported</strong> by Sarah Johnson
+       </div>
+      </div>
+      <div class="timeline-item completed">
+       <div class="timeline-date">
+        1 hour ago
+       </div>
+       <div class="timeline-content">
+        <strong>Status updated</strong> to In Progress by Admin
+       </div>
+      </div>
+      <div class="timeline-item completed">
+       <div class="timeline-date">
+        45 minutes ago
+       </div>
+       <div class="timeline-content">
+        <strong>Technician assigned</strong> - Expected arrival at 2 PM
+       </div>
+      </div>
+      <div class="timeline-item">
+       <div class="timeline-date">
+        Pending
+       </div>
+       <div class="timeline-content">
+        <strong>Resolution</strong>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="card-flat">
+     <h3 style="margin: 0 0 16px 0; font-size: 18px;">Comments (2)</h3>
+     <div class="comment-item">
+      <div class="comment-header">
+       <div class="comment-avatar">
+        AJ
+       </div>
+       <div class="comment-info">
+        <div class="comment-author">
+         Admin
+        </div>
+        <div class="comment-time">
+         1 hour ago
+        </div>
+       </div>
+      </div>
+      <p class="comment-text">Technician has been contacted and will arrive by 2 PM today. We apologize for the inconvenience.</p>
+     </div>
+     <div class="comment-item">
+      <div class="comment-header">
+       <div class="comment-avatar">
+        MC
+       </div>
+       <div class="comment-info">
+        <div class="comment-author">
+         Mike Chen
+        </div>
+        <div class="comment-time">
+         30 minutes ago
+        </div>
+       </div>
+      </div>
+      <p class="comment-text">Thank you for the quick response! Looking forward to the fix.</p>
+     </div>
+     <form onsubmit="handleAddComment(event)" style="margin-top: 20px;"><textarea class="form-textarea" placeholder="Add a comment..." style="min-height: 80px;"></textarea> <button type="submit" class="btn btn-primary" style="margin-top: 12px;">Post Comment</button>
+     </form>
+    </div>
+   </div>
+  </div><!-- SCREEN: Report Issue -->
+  <div id="screen-report-issue" class="screen-content">
+   <div class="container" style="max-width: 600px; margin-top: 40px;">
+    <h1 style="margin: 0 0 8px 0; font-size: 28px;">Report an Issue</h1>
+    <p style="color: #64748b; margin: 0 0 32px 0;">Help us maintain our community</p>
+    <form onsubmit="handleReportIssue(event)">
+     <div class="card-flat">
+      <div class="form-group"><label class="form-label" for="issue-title">Issue Title</label> <input type="text" id="issue-title" class="form-input" placeholder="Brief description of the issue" required>
+      </div>
+      <div class="form-group"><label class="form-label" for="issue-location">Location</label> <input type="text" id="issue-location" class="form-input" placeholder="e.g., Floor 3, Pool Area, Parking B2" required>
+      </div>
+      <div class="form-group"><label class="form-label" for="issue-category">Category</label> <select id="issue-category" class="form-select" required> <option value="">Select category...</option> <option value="maintenance">Maintenance</option> <option value="cleaning">Cleaning</option> <option value="security">Security</option> <option value="noise">Noise Complaint</option> <option value="other">Other</option> </select>
+      </div>
+      <div class="form-group"><label class="form-label" for="issue-description">Description</label> <textarea id="issue-description" class="form-textarea" placeholder="Provide detailed information about the issue..." required></textarea>
+      </div>
+      <div class="form-group"><label class="form-label">Priority</label>
+       <div style="display: flex; gap: 12px;"><label style="display: flex; align-items: center; gap: 8px; cursor: pointer;"> <input type="radio" name="priority" value="low" checked> <span>Low</span> </label> <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;"> <input type="radio" name="priority" value="medium"> <span>Medium</span> </label> <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;"> <input type="radio" name="priority" value="high"> <span>High</span> </label>
+       </div>
+      </div>
+      <div class="form-group"><label class="form-label" for="issue-photos">Upload Photos (Optional)</label> <input type="file" id="issue-photos" accept="image/*" multiple style="display: none;" onchange="handlePhotoUpload(event)"> <button type="button" class="btn btn-secondary" onclick="document.getElementById('issue-photos').click()" style="width: 100%; justify-content: center;"> 📷 Choose Photos (Max 5) </button>
+       <div id="photo-preview" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 12px; margin-top: 12px;"></div>
+      </div>
+     </div>
+     <div style="display: flex; gap: 12px; margin-top: 20px;"><button type="submit" class="btn btn-primary" style="flex: 1; justify-content: center;">Submit Issue</button> <button type="button" class="btn btn-secondary" onclick="navigateTo('issues')">Cancel</button>
+     </div>
+    </form>
+   </div>
+  </div><!-- SCREEN: Announcements -->
+  <div id="screen-announcements" class="screen-content">
+   <div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
+     <div>
+      <h1 style="margin: 0 0 6px 0; font-size: 28px;">Announcements</h1>
+      <p style="margin: 0; color: #64748b;">Important updates from your community</p>
+     </div><button class="btn btn-primary" onclick="navigateTo('create-announcement')">+ New Announcement</button>
+    </div>
+    <div class="announcement-item" onclick="navigateTo('announcement-detail')">
+     <div class="announcement-header">
+      <div style="flex: 1;">
+       <h3 class="announcement-title">Pool Maintenance Schedule</h3>
+       <div class="announcement-meta">
+        Posted by Admin · 3 hours ago
+       </div>
+      </div><span class="status-badge status-open">Active</span>
+     </div>
+     <p class="announcement-content">The pool will be closed for routine maintenance from January 25-27. We apologize for any inconvenience and appreciate your understanding.</p>
+    </div>
+    <div class="announcement-item">
+     <div class="announcement-header">
+      <div style="flex: 1;">
+       <h3 class="announcement-title">Community Meeting - January 30</h3>
+       <div class="announcement-meta">
+        Posted by Admin · Yesterday
+       </div>
+      </div><span class="status-badge status-open">Active</span>
+     </div>
+     <p class="announcement-content">Monthly community meeting scheduled for January 30 at 7 PM in the community hall. All residents are welcome to attend and discuss upcoming projects.</p>
+    </div>
+    <div class="announcement-item pending">
+     <div class="announcement-header">
+      <div style="flex: 1;">
+       <h3 class="announcement-title">New Parking Rules</h3>
+       <div class="announcement-meta">
+        Posted by Sarah Johnson · 2 days ago
+       </div>
+      </div><span class="status-badge status-pending">Pending Approval</span>
+     </div>
+     <p class="announcement-content">Proposal for new visitor parking regulations to improve parking availability for residents.</p>
+    </div>
+   </div>
+  </div><!-- SCREEN: Announcement Detail -->
+  <div id="screen-announcement-detail" class="screen-content">
+   <div class="container" style="max-width: 800px;"><button class="btn btn-ghost" onclick="navigateTo('announcements')" style="margin-bottom: 20px;">← Back to Announcements</button>
+    <div class="card-flat">
+     <div style="margin-bottom: 24px;">
+      <h1 style="margin: 0 0 12px 0; font-size: 26px;">Pool Maintenance Schedule</h1>
+      <div style="display: flex; gap: 16px; flex-wrap: wrap; color: #64748b; font-size: 14px; margin-bottom: 16px;"><span>👤 Admin</span> <span>🕐 3 hours ago</span> <span>📁 Maintenance</span>
+      </div><span class="status-badge status-open">Active</span>
+     </div>
+     <div style="border-top: 2px solid #e0f2fe; padding-top: 20px; color: #475569; line-height: 1.8; font-size: 15px;">
+      <p style="margin: 0 0 16px 0;">Dear Residents,</p>
+      <p style="margin: 0 0 16px 0;">We wanted to inform you about the upcoming pool maintenance schedule. Our pool will be temporarily closed for routine maintenance and cleaning from <strong>January 25-27, 2024</strong>.</p>
+      <p style="margin: 0 0 16px 0;">During this time, our team will be:</p>
+      <ul style="margin: 0 0 16px 0; padding-left: 24px;">
+       <li>Performing deep cleaning</li>
+       <li>Checking and repairing pool equipment</li>
+       <li>Testing water quality systems</li>
+       <li>Inspecting safety features</li>
+      </ul>
+      <p style="margin: 0 0 16px 0;">The pool will reopen on <strong>January 28</strong> at 6:00 AM with improved water quality and fully serviced equipment.</p>
+      <p style="margin: 0;">We apologize for any inconvenience this may cause and appreciate your understanding as we work to maintain our facilities at the highest standard.</p>
+     </div>
+    </div>
+   </div>
+  </div><!-- SCREEN: Create Announcement -->
+  <div id="screen-create-announcement" class="screen-content">
+   <div class="container" style="max-width: 600px; margin-top: 40px;">
+    <h1 style="margin: 0 0 8px 0; font-size: 28px;">Create Announcement</h1>
+    <p style="color: #64748b; margin: 0 0 32px 0;">Share important updates with your community</p>
+    <form onsubmit="handleCreateAnnouncement(event)">
+     <div class="card-flat">
+      <div class="form-group"><label class="form-label" for="announcement-title">Announcement Title</label> <input type="text" id="announcement-title" class="form-input" placeholder="Brief, clear title" required>
+      </div>
+      <div class="form-group"><label class="form-label" for="announcement-category">Category</label> <select id="announcement-category" class="form-select" required> <option value="">Select category...</option> <option value="maintenance">Maintenance</option> <option value="events">Events</option> <option value="safety">Safety &amp; Security</option> <option value="updates">General Updates</option> <option value="urgent">Urgent</option> </select>
+      </div>
+      <div class="form-group"><label class="form-label" for="announcement-content">Content</label> <textarea id="announcement-content" class="form-textarea" placeholder="Write your announcement here..." style="min-height: 200px;" required></textarea>
+      </div>
+     </div>
+     <div style="display: flex; gap: 12px; margin-top: 20px;"><button type="submit" class="btn btn-primary" style="flex: 1; justify-content: center;">Publish Announcement</button> <button type="button" class="btn btn-secondary" onclick="navigateTo('announcements')">Cancel</button>
+     </div>
+    </form>
+   </div>
+  </div><!-- SCREEN: Forum -->
+  <div id="screen-forum" class="screen-content">
+   <div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
+     <div>
+      <h1 style="margin: 0 0 6px 0; font-size: 28px;">Community Forum</h1>
+      <p style="margin: 0; color: #64748b;">Discuss and share with your community</p>
+     </div><button class="btn btn-primary" onclick="navigateTo('create-thread')">+ New Thread</button>
+    </div>
+    <div class="filter-chips">
+     <div class="filter-chip active">
+      All Discussions
+     </div>
+     <div class="filter-chip">
+      Popular
+     </div>
+     <div class="filter-chip">
+      Recent
+     </div>
+     <div class="filter-chip">
+      Unanswered
+     </div>
+    </div>
+    <div class="thread-item" onclick="navigateTo('thread-detail')">
+     <div class="thread-header">
+      <div class="avatar">
+       SJ
+      </div>
+      <div class="thread-info">
+       <h3 class="thread-title">Best local restaurants near our community</h3>
+       <div class="thread-meta">
+        Started by Sarah Johnson · 2 hours ago
+       </div>
+      </div>
+     </div>
+     <div class="thread-stats"><span>💬 12 replies</span> <span>👁����� 45 views</span> <span>🔥 Popular</span>
+     </div>
+    </div>
+    <div class="thread-item">
+     <div class="thread-header">
+      <div class="avatar">
+       MC
+      </div>
+      <div class="thread-info">
+       <h3 class="thread-title">Organizing a weekend BBQ event</h3>
+       <div class="thread-meta">
+        Started by Mike Chen · 5 hours ago
+       </div>
+      </div>
+     </div>
+     <div class="thread-stats"><span>💬 8 replies</span> <span>👁️ 23 views</span>
+     </div>
+    </div>
+    <div class="thread-item">
+     <div class="thread-header">
+      <div class="avatar">
+       ED
+      </div>
+      <div class="thread-info">
+       <h3 class="thread-title">Recommendations for cleaning services</h3>
+       <div class="thread-meta">
+        Started by Emily Davis · Yesterday
+       </div>
+      </div>
+     </div>
+     <div class="thread-stats"><span>💬 5 replies</span> <span>👁️ 18 views</span>
+     </div>
+    </div>
+   </div>
+  </div><!-- SCREEN: Thread Detail -->
+  <div id="screen-thread-detail" class="screen-content">
+   <div class="container" style="max-width: 800px;"><button class="btn btn-ghost" onclick="navigateTo('forum')" style="margin-bottom: 20px;">← Back to Forum</button>
+    <div class="card-flat">
+     <h1 style="margin: 0 0 20px 0; font-size: 26px;">Best local restaurants near our community</h1>
+     <div class="comment-item" style="border: none; background: white;">
+      <div class="comment-header">
+       <div class="comment-avatar">
+        SJ
+       </div>
+       <div class="comment-info">
+        <div class="comment-author">
+         Sarah Johnson
+        </div>
+        <div class="comment-time">
+         2 hours ago
+        </div>
+       </div>
+      </div>
+      <p class="comment-text">Hey everyone! I'm new to the area and looking for good restaurant recommendations within walking distance. Any favorites?</p>
+     </div>
+     <h3 style="margin: 24px 0 16px 0; font-size: 18px; border-top: 2px solid #e0f2fe; padding-top: 24px;">12 Replies</h3>
+     <div class="comment-item">
+      <div class="comment-header">
+       <div class="comment-avatar">
+        MC
+       </div>
+       <div class="comment-info">
+        <div class="comment-author">
+         Mike Chen
+        </div>
+        <div class="comment-time">
+         1 hour ago
+        </div>
+       </div>
+      </div>
+      <p class="comment-text">Welcome! There's an amazing Italian place called "Bella Vista" just two blocks away. Their pasta is incredible!</p>
+     </div>
+     <div class="comment-item">
+      <div class="comment-header">
+       <div class="comment-avatar">
+        ED
+       </div>
+       <div class="comment-info">
+        <div class="comment-author">
+         Emily Davis
+        </div>
+        <div class="comment-time">
+         45 minutes ago
+        </div>
+       </div>
+      </div>
+      <p class="comment-text">I second Bella Vista! Also check out "Green Garden" for healthy options and great salads. It's across the street from the gym.</p>
+     </div>
+     <form onsubmit="handleReplyThread(event)" style="margin-top: 24px;"><textarea class="form-textarea" placeholder="Write your reply..." style="min-height: 100px;"></textarea> <button type="submit" class="btn btn-primary" style="margin-top: 12px;">Post Reply</button>
+     </form>
+    </div>
+   </div>
+  </div><!-- SCREEN: Create Thread -->
+  <div id="screen-create-thread" class="screen-content">
+   <div class="container" style="max-width: 600px; margin-top: 40px;">
+    <h1 style="margin: 0 0 8px 0; font-size: 28px;">Start a Discussion</h1>
+    <p style="color: #64748b; margin: 0 0 32px 0;">Ask questions or share ideas with your community</p>
+    <form onsubmit="handleCreateThread(event)">
+     <div class="card-flat">
+      <div class="form-group"><label class="form-label" for="thread-title">Thread Title</label> <input type="text" id="thread-title" class="form-input" placeholder="What is your question or topic" required>
+      </div>
+      <div class="form-group"><label class="form-label" for="thread-category">Category</label> <select id="thread-category" class="form-select" required> <option value="">Select category...</option> <option value="general">General Discussion</option> <option value="questions">Questions</option> <option value="recommendations">Recommendations</option> <option value="events">Events &amp; Activities</option> <option value="marketplace">Marketplace</option> </select>
+      </div>
+      <div class="form-group"><label class="form-label" for="thread-content">Content</label> <textarea id="thread-content" class="form-textarea" placeholder="Share your thoughts..." style="min-height: 180px;" required></textarea>
+      </div>
+     </div>
+     <div style="display: flex; gap: 12px; margin-top: 20px;"><button type="submit" class="btn btn-primary" style="flex: 1; justify-content: center;">Post Thread</button> <button type="button" class="btn btn-secondary" onclick="navigateTo('forum')">Cancel</button>
+     </div>
+    </form>
+   </div>
+  </div><!-- SCREEN: Documents -->
+  <div id="screen-documents" class="screen-content">
+   <div class="container">
+    <h1 style="margin: 0 0 8px 0; font-size: 28px;">Documents &amp; Resources</h1>
+    <p style="color: #64748b; margin: 0 0 24px 0;">Access important community documents</p>
+    <div class="tabs"><button class="tab active">All Documents</button> <button class="tab">Guidelines</button> <button class="tab">Forms</button> <button class="tab">Meeting Minutes</button>
+    </div>
+    <div class="document-item">
+     <div class="document-icon">
+      📄
+     </div>
+     <div class="document-info">
+      <h4 class="document-name">Community Guidelines 2024</h4>
+      <div class="document-meta">
+       PDF · 2.4 MB · Updated Jan 15, 2024
+      </div>
+     </div><button class="btn btn-ghost btn-small">Download</button>
+    </div>
+    <div class="document-item">
+     <div class="document-icon">
+      📋
+     </div>
+     <div class="document-info">
+      <h4 class="document-name">Maintenance Request Form</h4>
+      <div class="document-meta">
+       PDF · 156 KB · Updated Jan 10, 2024
+      </div>
+     </div><button class="btn btn-ghost btn-small">Download</button>
+    </div>
+    <div class="document-item">
+     <div class="document-icon">
+      📝
+     </div>
+     <div class="document-info">
+      <h4 class="document-name">December 2023 Meeting Minutes</h4>
+      <div class="document-meta">
+       PDF · 890 KB · Uploaded Jan 5, 2024
+      </div>
+     </div><button class="btn btn-ghost btn-small">Download</button>
+    </div>
+   </div>
+  </div><!-- SCREEN: Quests -->
+  <div id="screen-quests" class="screen-content">
+   <div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
+     <div>
+      <h1 style="margin: 0 0 6px 0; font-size: 28px;">Community Quests</h1>
+      <p style="margin: 0; color: #64748b;">Complete tasks and earn rewards</p>
+     </div>
+     <div style="background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: white; padding: 12px 20px; border-radius: 12px; font-weight: 700;">
+      ⭐ 150 Points
+     </div>
+    </div>
+    <div class="quest-card">
+     <div class="quest-header">
+      <div style="flex: 1;">
+       <h3 class="quest-title">Welcome Onboarding</h3><span class="difficulty-badge difficulty-easy">Easy</span>
+      </div><span class="reward-badge">+50 pts</span>
+     </div>
+     <p class="quest-description">Complete your profile and join your first community channel.</p>
+     <div class="quest-footer">
+      <div style="flex: 1; background: #e0f2fe; border-radius: 8px; height: 8px; overflow: hidden;">
+       <div style="width: 75%; height: 100%; background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);"></div>
+      </div><span style="font-size: 13px; color: #64748b; font-weight: 600;">3/4 tasks</span>
+     </div>
+    </div>
+    <div class="quest-card">
+     <div class="quest-header">
+      <div style="flex: 1;">
+       <h3 class="quest-title">Community Helper</h3><span class="difficulty-badge difficulty-medium">Medium</span>
+      </div><span class="reward-badge">+100 pts</span>
+     </div>
+     <p class="quest-description">Help other members by replying to 5 forum threads.</p>
+     <div class="quest-footer">
+      <div style="flex: 1; background: #e0f2fe; border-radius: 8px; height: 8px; overflow: hidden;">
+       <div style="width: 40%; height: 100%; background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);"></div>
+      </div><span style="font-size: 13px; color: #64748b; font-weight: 600;">2/5 replies</span>
+     </div>
+    </div>
+    <div class="quest-card">
+     <div class="quest-header">
+      <div style="flex: 1;">
+       <h3 class="quest-title">Event Organizer</h3><span class="difficulty-badge difficulty-hard">Hard</span>
+      </div><span class="reward-badge">+200 pts</span>
+     </div>
+     <p class="quest-description">Organize and host a community event with at least 10 attendees.</p><button class="btn btn-primary btn-small">Start Quest</button>
+    </div>
+   </div>
+  </div><!-- SCREEN: Channels -->
+  <div id="screen-channels" class="screen-content">
+   <div class="container">
+    <h1 style="margin: 0 0 8px 0; font-size: 28px;">Community Channels</h1>
+    <p style="color: #64748b; margin: 0 0 24px 0;">Subscribe to topics that interest you</p>
+    <div class="channel-item">
+     <div class="channel-header">
+      <div class="channel-icon">
+       🔧
+      </div>
+      <div class="channel-info">
+       <h3 class="channel-name">Maintenance Updates</h3>
+       <div class="channel-category">
+        Operations · 248 subscribers
+       </div>
+      </div><button class="btn btn-primary btn-small">Subscribed ✓</button>
+     </div>
+     <p class="channel-description">Get notified about building maintenance, repairs, and scheduled work.</p>
+    </div>
+    <div class="channel-item">
+     <div class="channel-header">
+      <div class="channel-icon">
+       ���
+      </div>
+      <div class="channel-info">
+       <h3 class="channel-name">Events &amp; Activities</h3>
+       <div class="channel-category">
+        Social · 187 subscribers
+       </div>
+      </div><button class="btn btn-secondary btn-small">Subscribe</button>
+     </div>
+     <p class="channel-description">Stay updated on community events, gatherings, and social activities.</p>
+    </div>
+    <div class="channel-item">
+     <div class="channel-header">
+      <div class="channel-icon">
+       🏋���
+      </div>
+      <div class="channel-info">
+       <h3 class="channel-name">Fitness &amp; Wellness</h3>
+       <div class="channel-category">
+        Health · 142 subscribers
+       </div>
+      </div><button class="btn btn-secondary btn-small">Subscribe</button>
+     </div>
+     <p class="channel-description">Share fitness tips, organize workout groups, and wellness discussions.</p>
+    </div>
+   </div>
+  </div><!-- SCREEN: Notifications -->
+  <div id="screen-notifications" class="screen-content">
+   <div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+     <div>
+      <h1 style="margin: 0 0 6px 0; font-size: 28px;">Notifications</h1>
+      <p style="margin: 0; color: #64748b;">Stay updated with your community</p>
+     </div><button class="btn btn-ghost" onclick="markAllAsRead()">Mark all as read</button>
+    </div>
+    <div class="notification-item unread">
+     <div class="notification-icon">
+      💬
+     </div>
+     <div class="notification-content">
+      <div class="notification-title">
+       New reply in thread
+      </div>
+      <div class="notification-text">
+       Mike Thompson replied to "Best local restaurants"
+      </div>
+      <div class="notification-time">
+       5 minutes ago
+      </div>
+     </div>
+    </div>
+    <div class="notification-item unread">
+     <div class="notification-icon">
+      📢
+     </div>
+     <div class="notification-content">
+      <div class="notification-title">
+       New announcement
+      </div>
+      <div class="notification-text">
+       Pool Maintenance Schedule posted by Admin
+      </div>
+      <div class="notification-time">
+       2 hours ago
+      </div>
+     </div>
+    </div>
+    <div class="notification-item">
+     <div class="notification-icon">
+      🔧
+     </div>
+     <div class="notification-content">
+      <div class="notification-title">
+       Issue status updated
+      </div>
+      <div class="notification-text">
+       Elevator #2 status changed to "In Progress"
+      </div>
+      <div class="notification-time">
+       Yesterday
+      </div>
+     </div>
+    </div>
+   </div>
+  </div><!-- SCREEN: Profile -->
+  <div id="screen-profile" class="screen-content">
+   <div class="container" style="max-width: 800px;">
+    <div class="profile-header">
+     <div class="profile-avatar">
+      AD
+     </div>
+     <h2 class="profile-name">Alex Davis</h2>
+     <div class="profile-email">
+      alex.davis@email.com
+     </div><button class="btn btn-secondary" onclick="navigateTo('profile-edit')" style="margin-top: 16px;">Edit Profile</button>
+    </div>
+    <div class="card-flat">
+     <h3 style="margin: 0 0 16px 0; font-size: 18px;">My Communities</h3>
+     <div class="member-item">
+      <div class="member-avatar">
+       🏢
+      </div>
+      <div class="member-info">
+       <div class="member-name">
+        Sunset Valley Residences
+       </div>
+       <div class="member-role">
+        Member since Jan 2023
+       </div>
+      </div>
+     </div>
+     <div class="member-item">
+      <div class="member-avatar">
+       📚
+      </div>
+      <div class="member-info">
+       <div class="member-name">
+        Mystery Book Club
+       </div>
+       <div class="member-role">
+        Member since Mar 2023
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="card-flat">
+     <h3 style="margin: 0 0 16px 0; font-size: 18px;">My Homes</h3><button class="btn btn-ghost" onclick="navigateTo('my-homes')" style="width: 100%; justify-content: flex-start; margin-bottom: 8px;">🏠 View My Homes</button>
+    </div>
+    <div class="card-flat">
+     <h3 style="margin: 0 0 16px 0; font-size: 18px;">Quick Actions</h3><button class="btn btn-ghost" onclick="navigateTo('settings')" style="width: 100%; justify-content: flex-start; margin-bottom: 8px;">⚙️ Settings</button> <button class="btn btn-ghost" onclick="navigateTo('activity')" style="width: 100%; justify-content: flex-start; margin-bottom: 8px;">📊 Activity History</button> <button class="btn btn-ghost" onclick="handleLogout()" style="width: 100%; justify-content: flex-start; color: #ef4444;">🚪 Logout</button>
+    </div>
+   </div>
+  </div><!-- SCREEN: My Homes -->
+  <div id="screen-my-homes" class="screen-content">
+   <div class="container"><button class="btn btn-ghost" onclick="navigateTo('profile')" style="margin-bottom: 20px;">← Back to Profile</button>
+    <h1 style="margin: 0 0 8px 0; font-size: 28px;">My Homes</h1>
+    <p style="color: #64748b; margin: 0 0 24px 0;">All your verified homes</p>
+    <div class="card-flat" style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); margin-bottom: 16px; cursor: pointer;" onclick="navigateTo('home-members')">
+     <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 12px;">
+      <div style="font-size: 48px;">
+       🏠
+      </div>
+      <div style="flex: 1;">
+       <h2 style="margin: 0 0 4px 0; font-size: 20px;">Unit A-302</h2>
+       <p style="margin: 0; color: #64748b; font-size: 14px;">Sunset Valley Residences · Tower A, Floor 3</p>
+      </div><span class="status-badge status-completed">Admin</span>
+     </div>
+     <div style="border-top: 2px solid #bfdbfe; padding-top: 12px; margin-top: 12px; display: flex; gap: 20px; font-size: 14px; color: #475569;"><span>👥 3 members</span> <span>🔑 2 access codes</span>
+     </div><button class="btn btn-primary btn-small" style="margin-top: 16px;" onclick="event.stopPropagation(); navigateTo('community')">Go to Community →</button>
+    </div>
+    <div class="card-flat" style="margin-bottom: 16px; cursor: pointer;" onclick="viewHomeDetails('B-105')">
+     <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 12px;">
+      <div style="font-size: 48px;">
+       🏠
+      </div>
+      <div style="flex: 1;">
+       <h2 style="margin: 0 0 4px 0; font-size: 20px;">Unit B-105</h2>
+       <p style="margin: 0; color: #64748b; font-size: 14px;">Harbor View Towers · Tower B, Floor 1</p>
+      </div><span class="status-badge status-open">Member</span>
+     </div>
+     <div style="border-top: 2px solid #e0f2fe; padding-top: 12px; margin-top: 12px; display: flex; gap: 20px; font-size: 14px; color: #475569;"><span>👥 2 members</span> <span>🔑 Limited access</span>
+     </div><button class="btn btn-secondary btn-small" style="margin-top: 16px;" onclick="event.stopPropagation(); showToast('Opening Harbor View community...')">Go to Community →</button>
+    </div><button class="btn btn-ghost" style="width: 100%; justify-content: center; margin-top: 16px;" onclick="navigateTo('join-community')">+ Add Another Home</button>
+   </div>
+  </div><!-- Additional screens would continue here following the same pattern --> <!-- For brevity, I'll add the key remaining screens --> <!-- SCREEN: Settings -->
+  <div id="screen-settings" class="screen-content">
+   <div class="container" style="max-width: 700px;">
+    <h1 style="margin: 0 0 32px 0; font-size: 28px;">Settings</h1>
+    <div class="settings-section">
+     <h3 class="settings-title">Notifications</h3>
+     <div class="settings-item">
+      <div class="settings-info">
+       <div class="settings-label">
+        Email Notifications
+       </div>
+       <div class="settings-description">
+        Receive updates via email
+       </div>
+      </div>
+      <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+     </div>
+     <div class="settings-item">
+      <div class="settings-info">
+       <div class="settings-label">
+        Push Notifications
+       </div>
+       <div class="settings-description">
+        Get real-time alerts
+       </div>
+      </div>
+      <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+     </div>
+    </div>
+    <div class="settings-section">
+     <h3 class="settings-title">Privacy</h3>
+     <div class="settings-item">
+      <div class="settings-info">
+       <div class="settings-label">
+        Profile Visibility
+       </div>
+       <div class="settings-description">
+        Show your profile to community members
+       </div>
+      </div>
+      <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+     </div>
+    </div>
+   </div>
+  </div><!-- SCREEN: Admin Dashboard -->
+  <div id="screen-admin" class="screen-content">
+   <div class="container">
+    <h1 style="margin: 0 0 32px 0; font-size: 28px;">Admin Dashboard</h1>
+    <div class="stat-grid">
+     <div class="stat-card">
+      <div class="stat-label">
+       Total Members
+      </div>
+      <div class="stat-value">
+       248
+      </div>
+      <div class="stat-change">
+       ↑ 12 this month
+      </div>
+     </div>
+     <div class="stat-card">
+      <div class="stat-label">
+       Active Issues
+      </div>
+      <div class="stat-value">
+       3
+      </div>
+      <div class="stat-change">
+       2 resolved today
+      </div>
+     </div>
+     <div class="stat-card">
+      <div class="stat-label">
+       Forum Threads
+      </div>
+      <div class="stat-value">
+       47
+      </div>
+      <div class="stat-change">
+       ↑ 5 this week
+      </div>
+     </div>
+     <div class="stat-card">
+      <div class="stat-label">
+       Announcements
+      </div>
+      <div class="stat-value">
+       2
+      </div>
+      <div class="stat-change">
+       Active now
+      </div>
+     </div>
+    </div>
+    <div class="grid grid-2">
+     <div class="card" onclick="navigateTo('admin-members')">
+      <h3 style="margin: 0 0 8px 0;">👥 Member Management</h3>
+      <p style="color: #64748b; margin: 0; font-size: 14px;">Manage members and permissions</p>
+     </div>
+     <div class="card" onclick="navigateTo('admin-verify')">
+      <h3 style="margin: 0 0 8px 0;">✅ Pending Verifications</h3>
+      <p style="color: #64748b; margin: 0; font-size: 14px;">Review member applications <span class="tab-badge" style="margin-left: 8px;">5</span></p>
+     </div>
+     <div class="card" onclick="navigateTo('admin-documents')">
+      <h3 style="margin: 0 0 8px 0;">📄 Document Management</h3>
+      <p style="color: #64748b; margin: 0; font-size: 14px;">Upload and organize documents</p>
+     </div>
+     <div class="card" onclick="navigateTo('admin-quests')">
+      <h3 style="margin: 0 0 8px 0;">🎯 Quest Management</h3>
+      <p style="color: #64748b; margin: 0; font-size: 14px;">Create and manage community quests</p>
+     </div>
+    </div>
+   </div>
+  </div><!-- SCREEN: Admin Members -->
+  <div id="screen-admin-members" class="screen-content">
+   <div class="container"><button class="btn btn-ghost" onclick="navigateTo('admin')" style="margin-bottom: 20px;">← Back to Admin</button>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
+     <div>
+      <h1 style="margin: 0 0 6px 0; font-size: 28px;">Member Management</h1>
+      <p style="margin: 0; color: #64748b;">Manage community members and permissions</p>
+     </div><button class="btn btn-primary" onclick="showAddMemberModal()">+ Add Member</button>
+    </div>
+    <div class="search-bar"><span class="search-icon">🔍</span> <input type="text" class="search-input" placeholder="Search members..." oninput="searchMembers(this.value)">
+    </div>
+    <div class="filter-chips">
+     <div class="filter-chip active" onclick="filterMembers(this, 'all')">
+      All Members
+     </div>
+     <div class="filter-chip" onclick="filterMembers(this, 'admin')">
+      Admins
+     </div>
+     <div class="filter-chip" onclick="filterMembers(this, 'member')">
+      Members
+     </div>
+     <div class="filter-chip" onclick="filterMembers(this, 'pending')">
+      Pending
+     </div>
+    </div>
+    <div id="members-list">
+     <div class="member-item" data-role="admin">
+      <div class="member-avatar">
+       AD
+      </div>
+      <div class="member-info">
+       <div class="member-name">
+        Alex Davis
+       </div>
+       <div class="member-role">
+        Administrator · Unit A-302
+       </div>
+      </div><button class="btn btn-ghost btn-small">Manage</button>
+     </div>
+     <div class="member-item" data-role="member">
+      <div class="member-avatar">
+       SJ
+      </div>
+      <div class="member-info">
+       <div class="member-name">
+        Sarah Johnson
+       </div>
+       <div class="member-role">
+        Member · Unit B-507
+       </div>
+      </div><button class="btn btn-ghost btn-small">Manage</button>
+     </div>
+     <div class="member-item" data-role="member">
+      <div class="member-avatar">
+       MC
+      </div>
+      <div class="member-info">
+       <div class="member-name">
+        Mike Chen
+       </div>
+       <div class="member-role">
+        Member · Unit C-214
+       </div>
+      </div><button class="btn btn-ghost btn-small">Manage</button>
+     </div>
+     <div class="member-item" data-role="member">
+      <div class="member-avatar">
+       ED
+      </div>
+      <div class="member-info">
+       <div class="member-name">
+        Emily Davis
+       </div>
+       <div class="member-role">
+        Member · Unit D-108
+       </div>
+      </div><button class="btn btn-ghost btn-small">Manage</button>
+     </div>
+    </div>
+   </div>
+  </div><!-- SCREEN: Admin Verify -->
+  <div id="screen-admin-verify" class="screen-content">
+   <div class="container"><button class="btn btn-ghost" onclick="navigateTo('admin')" style="margin-bottom: 20px;">← Back to Admin</button>
+    <h1 style="margin: 0 0 8px 0; font-size: 28px;">Pending Verifications</h1>
+    <p style="color: #64748b; margin: 0 0 24px 0;">Review and approve new member applications</p>
+    <div class="card-flat" style="margin-bottom: 16px;">
+     <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
+      <div class="avatar" style="width: 64px; height: 64px; font-size: 28px;">
+       JD
+      </div>
+      <div style="flex: 1;">
+       <h3 style="margin: 0 0 4px 0; font-size: 18px;">John Doe</h3>
+       <p style="margin: 0; color: #64748b; font-size: 14px;">john.doe@email.com</p>
+       <p style="margin: 4px 0 0 0; color: #64748b; font-size: 14px;">📍 Requesting access to Unit E-405</p>
+      </div>
+     </div>
+     <div style="background: #f8fafc; padding: 16px; border-radius: 12px; margin-bottom: 16px;">
+      <div style="font-weight: 600; margin-bottom: 8px; font-size: 14px;">
+       Application Details:
+      </div>
+      <p style="margin: 0; color: #475569; font-size: 14px; line-height: 1.6;">Owner verification code provided. Lease agreement uploaded. Move-in date: February 1, 2024.</p>
+     </div>
+     <div style="display: flex; gap: 12px;"><button class="btn btn-success" onclick="approveVerification('John Doe')">✓ Approve</button> <button class="btn btn-danger" onclick="rejectVerification('John Doe')">✗ Reject</button>
+     </div>
+    </div>
+    <div class="card-flat" style="margin-bottom: 16px;">
+     <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
+      <div class="avatar" style="width: 64px; height: 64px; font-size: 28px;">
+       LW
+      </div>
+      <div style="flex: 1;">
+       <h3 style="margin: 0 0 4px 0; font-size: 18px;">Lisa Wang</h3>
+       <p style="margin: 0; color: #64748b; font-size: 14px;">lisa.wang@email.com</p>
+       <p style="margin: 4px 0 0 0; color: #64748b; font-size: 14px;">📍 Requesting access to Unit B-312</p>
+      </div>
+     </div>
+     <div style="background: #f8fafc; padding: 16px; border-radius: 12px; margin-bottom: 16px;">
+      <div style="font-weight: 600; margin-bottom: 8px; font-size: 14px;">
+       Application Details:
+      </div>
+      <p style="margin: 0; color: #475569; font-size: 14px; line-height: 1.6;">New tenant. Previous landlord reference provided. Background check pending.</p>
+     </div>
+     <div style="display: flex; gap: 12px;"><button class="btn btn-success" onclick="approveVerification('Lisa Wang')">✓ Approve</button> <button class="btn btn-danger" onclick="rejectVerification('Lisa Wang')">✗ Reject</button>
+     </div>
+    </div>
+   </div>
+  </div><!-- SCREEN: Admin Documents -->
+  <div id="screen-admin-documents" class="screen-content">
+   <div class="container"><button class="btn btn-ghost" onclick="navigateTo('admin')" style="margin-bottom: 20px;">← Back to Admin</button>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
+     <div>
+      <h1 style="margin: 0 0 6px 0; font-size: 28px;">Document Management</h1>
+      <p style="margin: 0; color: #64748b;">Upload and organize community documents</p>
+     </div><button class="btn btn-primary" onclick="handleUploadDocument()">+ Upload Document</button>
+    </div>
+    <div class="tabs"><button class="tab active">All Documents</button> <button class="tab">Guidelines</button> <button class="tab">Forms</button> <button class="tab">Minutes</button>
+    </div>
+    <div class="document-item">
+     <div class="document-icon">
+      📄
+     </div>
+     <div class="document-info">
+      <h4 class="document-name">Community Guidelines 2024</h4>
+      <div class="document-meta">
+       PDF · 2.4 MB · Updated Jan 15, 2024
+      </div>
+     </div>
+     <div style="display: flex; gap: 8px;"><button class="btn btn-ghost btn-small">Edit</button> <button class="btn btn-danger btn-small" onclick="handleDeleteDocument('Community Guidelines')">Delete</button>
+     </div>
+    </div>
+    <div class="document-item">
+     <div class="document-icon">
+      📋
+     </div>
+     <div class="document-info">
+      <h4 class="document-name">Maintenance Request Form</h4>
+      <div class="document-meta">
+       PDF · 156 KB · Updated Jan 10, 2024
+      </div>
+     </div>
+     <div style="display: flex; gap: 8px;"><button class="btn btn-ghost btn-small">Edit</button> <button class="btn btn-danger btn-small" onclick="handleDeleteDocument('Maintenance Request Form')">Delete</button>
+     </div>
+    </div>
+   </div>
+  </div><!-- SCREEN: Admin Quests -->
+  <div id="screen-admin-quests" class="screen-content">
+   <div class="container"><button class="btn btn-ghost" onclick="navigateTo('admin')" style="margin-bottom: 20px;">← Back to Admin</button>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
+     <div>
+      <h1 style="margin: 0 0 6px 0; font-size: 28px;">Quest Management</h1>
+      <p style="margin: 0; color: #64748b;">Create and manage community quests</p>
+     </div><button class="btn btn-primary" onclick="showCreateQuestModal()">+ Create Quest</button>
+    </div>
+    <div class="quest-card">
+     <div class="quest-header">
+      <div style="flex: 1;">
+       <h3 class="quest-title">Welcome Onboarding</h3><span class="difficulty-badge difficulty-easy">Easy</span>
+       <div style="margin-top: 8px; font-size: 13px; color: #64748b;">
+        Active · 45 participants
+       </div>
+      </div><span class="reward-badge">+50 pts</span>
+     </div>
+     <p class="quest-description">Complete your profile and join your first community channel.</p>
+     <div style="display: flex; gap: 12px; margin-top: 16px;"><button class="btn btn-ghost btn-small">Edit</button> <button class="btn btn-secondary btn-small" onclick="toggleQuestStatus(this)">Pause</button>
+     </div>
+    </div>
+    <div class="quest-card">
+     <div class="quest-header">
+      <div style="flex: 1;">
+       <h3 class="quest-title">Community Helper</h3><span class="difficulty-badge difficulty-medium">Medium</span>
+       <div style="margin-top: 8px; font-size: 13px; color: #64748b;">
+        Active · 28 participants
+       </div>
+      </div><span class="reward-badge">+100 pts</span>
+     </div>
+     <p class="quest-description">Help other members by replying to 5 forum threads.</p>
+     <div style="display: flex; gap: 12px; margin-top: 16px;"><button class="btn btn-ghost btn-small">Edit</button> <button class="btn btn-secondary btn-small" onclick="toggleQuestStatus(this)">Pause</button>
+     </div>
+    </div>
+   </div>
+  </div><!-- SCREEN: Profile Homes -->
+  <div id="screen-profile-homes" class="screen-content">
+   <div class="container"><button class="btn btn-ghost" onclick="navigateTo('profile')" style="margin-bottom: 20px;">← Back to Profile</button>
+    <h1 style="margin: 0 0 8px 0; font-size: 28px;">My Homes</h1>
+    <p style="color: #64748b; margin: 0 0 24px 0;">Manage your verified homes and family members</p>
+    <div class="card-flat" style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); margin-bottom: 16px; cursor: pointer;" onclick="navigateTo('home-members')">
+     <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 12px;">
+      <div style="font-size: 48px;">
+       🏠
+      </div>
+      <div style="flex: 1;">
+       <h2 style="margin: 0 0 4px 0; font-size: 20px;">Unit A-302</h2>
+       <p style="margin: 0; color: #64748b; font-size: 14px;">Sunset Valley Residences · Tower A, Floor 3</p>
+      </div><span class="status-badge status-completed">Admin</span>
+     </div>
+     <div style="border-top: 2px solid #bfdbfe; padding-top: 12px; margin-top: 12px; display: flex; gap: 20px; font-size: 14px; color: #475569;"><span>👥 3 members</span> <span>🔑 2 access codes</span>
+     </div><button class="btn btn-primary btn-small" style="margin-top: 16px;" onclick="event.stopPropagation(); navigateTo('community')">Go to Community →</button>
+    </div>
+    <div class="card-flat" style="margin-bottom: 16px; cursor: pointer;" onclick="viewHomeDetails('B-105')">
+     <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 12px;">
+      <div style="font-size: 48px;">
+       🏠
+      </div>
+      <div style="flex: 1;">
+       <h2 style="margin: 0 0 4px 0; font-size: 20px;">Unit B-105</h2>
+       <p style="margin: 0; color: #64748b; font-size: 14px;">Harbor View Towers · Tower B, Floor 1</p>
+      </div><span class="status-badge status-open">Member</span>
+     </div>
+     <div style="border-top: 2px solid #e0f2fe; padding-top: 12px; margin-top: 12px; display: flex; gap: 20px; font-size: 14px; color: #475569;"><span>👥 2 members</span> <span>🔑 Limited access</span>
+     </div><button class="btn btn-secondary btn-small" style="margin-top: 16px;" onclick="event.stopPropagation(); showToast('Opening Harbor View community...')">Go to Community →</button>
+    </div><button class="btn btn-ghost" style="width: 100%; justify-content: center; margin-top: 16px;" onclick="navigateTo('join-community')">+ Add Another Home</button>
+   </div>
+  </div><!-- SCREEN: Home Members -->
+  <div id="screen-home-members" class="screen-content">
+   <div class="container"><button class="btn btn-ghost" onclick="navigateTo('profile-homes')" style="margin-bottom: 20px;">← Back to My Homes</button>
+    <h1 style="margin: 0 0 8px 0; font-size: 28px;">Home Members</h1>
+    <p style="color: #64748b; margin: 0 0 24px 0;">Manage members in your home unit</p>
+    <div class="card-flat" style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); margin-bottom: 24px;">
+     <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 12px;">
+      <div style="font-size: 48px;">
+       🏠
+      </div>
+      <div>
+       <h2 style="margin: 0 0 4px 0; font-size: 20px;">Unit A-302</h2>
+       <p style="margin: 0; color: #64748b; font-size: 14px;">Sunset Valley Residences · Tower A, Floor 3</p>
+      </div>
+     </div>
+     <div style="display: flex; gap: 20px; margin-top: 16px; font-size: 14px; color: #475569;"><span>👥 3 members</span> <span>🔑 2 access codes</span>
+     </div>
+    </div>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+     <h3 style="margin: 0; font-size: 18px;">Family Members</h3><button class="btn btn-primary btn-small" onclick="showAddHomeMemberModal()">+ Add Member</button>
+    </div>
+    <div class="member-item">
+     <div class="member-avatar">
+      AD
+     </div>
+     <div class="member-info">
+      <div class="member-name">
+       Alex Davis (You)
+      </div>
+      <div class="member-role">
+       Primary Owner · Full Access
+      </div>
+     </div><span class="status-badge status-completed">Owner</span>
+    </div>
+    <div class="member-item">
+     <div class="member-avatar">
+      SD
+     </div>
+     <div class="member-info">
+      <div class="member-name">
+       Sarah Davis
+      </div>
+      <div class="member-role">
+       Family Member · Full Access
+      </div>
+     </div><button class="btn btn-ghost btn-small" onclick="manageHomeMember('Sarah Davis')">Manage</button>
+    </div>
+    <div class="member-item">
+     <div class="member-avatar">
+      LD
+     </div>
+     <div class="member-info">
+      <div class="member-name">
+       Lucas Davis
+      </div>
+      <div class="member-role">
+       Family Member · Limited Access
+      </div>
+     </div><button class="btn btn-ghost btn-small" onclick="manageHomeMember('Lucas Davis')">Manage</button>
+    </div>
+    <h3 style="margin: 32px 0 16px 0; font-size: 18px;">Access Codes</h3>
+    <div class="card-flat" style="margin-bottom: 12px;">
+     <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;">
+      <div style="flex: 1;">
+       <div style="font-weight: 600; margin-bottom: 4px;">
+        Primary Access Code
+       </div>
+       <div style="font-family: 'Courier New', monospace; font-size: 16px; color: #0ea5e9; font-weight: 700; margin-bottom: 4px;">
+        SVR-A3-302-X7K9
+       </div>
+       <div style="font-size: 13px; color: #64748b;">
+        All family members · Never expires
+       </div>
+      </div><button class="btn btn-ghost btn-small" onclick="copyAccessCode('SVR-A3-302-X7K9')">📋 Copy</button>
+     </div>
+    </div>
+    <div class="card-flat">
+     <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;">
+      <div style="flex: 1;">
+       <div style="font-weight: 600; margin-bottom: 4px;">
+        Guest Access Code
+       </div>
+       <div style="font-family: 'Courier New', monospace; font-size: 16px; color: #0ea5e9; font-weight: 700; margin-bottom: 4px;">
+        SVR-A3-302-G2M4
+       </div>
+       <div style="font-size: 13px; color: #64748b;">
+        Limited access · Expires in 7 days
+       </div>
+      </div>
+      <div style="display: flex; gap: 8px;"><button class="btn btn-ghost btn-small" onclick="copyAccessCode('SVR-A3-302-G2M4')">📋 Copy</button> <button class="btn btn-danger btn-small" onclick="revokeAccessCode('SVR-A3-302-G2M4')">Revoke</button>
+      </div>
+     </div>
+    </div><button class="btn btn-secondary" style="width: 100%; justify-content: center; margin-top: 16px;" onclick="generateGuestCode()">+ Generate Guest Code</button>
+   </div>
+  </div><!-- SCREEN: Profile Edit -->
+  <div id="screen-profile-edit" class="screen-content">
+   <div class="container" style="max-width: 600px; margin-top: 40px;">
+    <h1 style="margin: 0 0 8px 0; font-size: 28px;">Edit Profile</h1>
+    <p style="color: #64748b; margin: 0 0 32px 0;">Update your personal information</p>
+    <form onsubmit="handleUpdateProfile(event)">
+     <div class="card-flat">
+      <div style="text-align: center; margin-bottom: 24px;">
+       <div class="profile-avatar" style="display: inline-flex; width: 80px; height: 80px; font-size: 36px;">
+        AD
+       </div><button type="button" class="btn btn-ghost btn-small" style="display: block; margin: 12px auto 0;">Change Avatar</button>
+      </div>
+      <div class="form-group"><label class="form-label" for="edit-name">Full Name</label> <input type="text" id="edit-name" class="form-input" value="Alex Davis" required>
+      </div>
+      <div class="form-group"><label class="form-label" for="edit-email">Email Address</label> <input type="email" id="edit-email" class="form-input" value="alex.davis@email.com" required>
+      </div>
+      <div class="form-group"><label class="form-label" for="edit-phone">Phone Number</label> <input type="tel" id="edit-phone" class="form-input" value="+1 (555) 123-4567">
+      </div>
+      <div class="form-group"><label class="form-label" for="edit-bio">Bio</label> <textarea id="edit-bio" class="form-textarea" placeholder="Tell us about yourself...">Friendly neighbor who loves community events!</textarea>
+      </div>
+     </div>
+     <div style="display: flex; gap: 12px; margin-top: 20px;"><button type="submit" class="btn btn-primary" style="flex: 1; justify-content: center;">Save Changes</button> <button type="button" class="btn btn-secondary" onclick="navigateTo('profile')">Cancel</button>
+     </div>
+    </form>
+   </div>
+  </div><!-- SCREEN: Security -->
+  <div id="screen-security" class="screen-content">
+   <div class="container" style="max-width: 700px;">
+    <h1 style="margin: 0 0 32px 0; font-size: 28px;">Security Settings</h1>
+    <div class="card-flat" style="margin-bottom: 24px;">
+     <h3 style="margin: 0 0 16px 0; font-size: 18px;">Change Password</h3>
+     <form onsubmit="handleChangePassword(event)">
+      <div class="form-group"><label class="form-label" for="current-password">Current Password</label> <input type="password" id="current-password" class="form-input" required>
+      </div>
+      <div class="form-group"><label class="form-label" for="new-password">New Password</label> <input type="password" id="new-password" class="form-input" required>
+      </div>
+      <div class="form-group"><label class="form-label" for="confirm-password">Confirm New Password</label> <input type="password" id="confirm-password" class="form-input" required>
+      </div><button type="submit" class="btn btn-primary">Update Password</button>
+     </form>
+    </div>
+    <div class="card-flat">
+     <h3 style="margin: 0 0 16px 0; font-size: 18px;">Two-Factor Authentication</h3>
+     <p style="color: #64748b; margin: 0 0 16px 0; font-size: 14px;">Add an extra layer of security to your account</p><button class="btn btn-secondary" onclick="enableTwoFactor()">Enable 2FA</button>
+    </div>
+   </div>
+  </div><!-- SCREEN: Notifications Settings -->
+  <div id="screen-notifications-settings" class="screen-content">
+   <div class="container" style="max-width: 700px;">
+    <h1 style="margin: 0 0 32px 0; font-size: 28px;">Notification Preferences</h1>
+    <div class="settings-section">
+     <h3 class="settings-title">Email Notifications</h3>
+     <div class="settings-item">
+      <div class="settings-info">
+       <div class="settings-label">
+        New Announcements
+       </div>
+       <div class="settings-description">
+        Receive emails when new announcements are posted
+       </div>
+      </div>
+      <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+     </div>
+     <div class="settings-item">
+      <div class="settings-info">
+       <div class="settings-label">
+        Issue Updates
+       </div>
+       <div class="settings-description">
+        Get notified about your reported issues
+       </div>
+      </div>
+      <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+     </div>
+     <div class="settings-item">
+      <div class="settings-info">
+       <div class="settings-label">
+        Forum Replies
+       </div>
+       <div class="settings-description">
+        Notify when someone replies to your threads
+       </div>
+      </div>
+      <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+     </div>
+    </div>
+    <div class="settings-section">
+     <h3 class="settings-title">Push Notifications</h3>
+     <div class="settings-item">
+      <div class="settings-info">
+       <div class="settings-label">
+        Urgent Announcements
+       </div>
+       <div class="settings-description">
+        Instant alerts for urgent community updates
+       </div>
+      </div>
+      <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+     </div>
+     <div class="settings-item">
+      <div class="settings-info">
+       <div class="settings-label">
+        Event Reminders
+       </div>
+       <div class="settings-description">
+        Reminders before community events
+       </div>
+      </div>
+      <div class="toggle-switch" onclick="toggleSwitch(this)"></div>
+     </div>
+    </div><button class="btn btn-primary" onclick="saveNotificationSettings()" style="margin-top: 24px;">Save Preferences</button>
+   </div>
+  </div><!-- SCREEN: Activity -->
+  <div id="screen-activity" class="screen-content">
+   <div class="container" style="max-width: 800px;">
+    <h1 style="margin: 0 0 8px 0; font-size: 28px;">Activity History</h1>
+    <p style="color: #64748b; margin: 0 0 24px 0;">Your recent actions and interactions</p>
+    <div class="tabs"><button class="tab active">All Activity</button> <button class="tab">Issues</button> <button class="tab">Forum</button> <button class="tab">Documents</button>
+    </div>
+    <div class="card-flat">
+     <div class="activity-item">
+      <div class="activity-icon">
+       💬
+      </div>
+      <div class="activity-content">
+       <div class="activity-text">
+        You replied to <strong>"Best local restaurants"</strong> in the forum
+       </div>
+       <div class="activity-time">
+        2 hours ago
+       </div>
+      </div>
+     </div>
+     <div class="activity-item">
+      <div class="activity-icon">
+       🔧
+      </div>
+      <div class="activity-content">
+       <div class="activity-text">
+        You reported an issue: <strong>"Elevator #2 Not Working"</strong>
+       </div>
+       <div class="activity-time">
+        Yesterday at 3:45 PM
+       </div>
+      </div>
+     </div>
+     <div class="activity-item">
+      <div class="activity-icon">
+       📢
+      </div>
+      <div class="activity-content">
+       <div class="activity-text">
+        You read the announcement: <strong>"Pool Maintenance Schedule"</strong>
+       </div>
+       <div class="activity-time">
+        Yesterday at 10:20 AM
+       </div>
+      </div>
+     </div>
+     <div class="activity-item">
+      <div class="activity-icon">
+       ⭐
+      </div>
+      <div class="activity-content">
+       <div class="activity-text">
+        You completed the quest: <strong>"Welcome Onboarding"</strong> and earned 50 points
+       </div>
+       <div class="activity-time">
+        2 days ago
+       </div>
+      </div>
+     </div>
+     <div class="activity-item">
+      <div class="activity-icon">
+       📄
+      </div>
+      <div class="activity-content">
+       <div class="activity-text">
+        You downloaded <strong>"Community Guidelines 2024"</strong>
+       </div>
+       <div class="activity-time">
+        3 days ago
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+  <script>
+    // Global State Management
+    const AppState = {
+      currentUser: null,
+      isAuthenticated: false,
+      notifications: [
+        { id: 1, type: 'reply', title: 'New reply in "Best local restaurants"', text: 'Mike Thompson replied to your thread', time: '5 minutes ago', unread: true },
+        { id: 2, type: 'announcement', title: 'New announcement posted', text: 'Pool Maintenance Schedule', time: '2 hours ago', unread: true }
+      ],
+      issues: [],
+      threads: [],
+      announcements: [],
+      communities: [],
+      uploadedPhotos: []
+    };
+
+    // Handle photo upload for issue reporting
+    function handlePhotoUpload(event) {
+      const files = Array.from(event.target.files);
+      const maxPhotos = 5;
+      
+      if (AppState.uploadedPhotos.length + files.length > maxPhotos) {
+        showToast(`You can only upload up to ${maxPhotos} photos`, 'error');
+        return;
+      }
+
+      const previewContainer = document.getElementById('photo-preview');
+      
+      files.forEach((file, index) => {
+        if (AppState.uploadedPhotos.length >= maxPhotos) return;
+        
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          AppState.uploadedPhotos.push({ file, url: e.target.result });
+          
+          const photoCard = document.createElement('div');
+          photoCard.style.cssText = `
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid #e0f2fe;
+            aspect-ratio: 1;
+          `;
+          
+          const img = document.createElement('img');
+          img.src = e.target.result;
+          img.style.cssText = 'width: 100%; height: 100%; object-fit: cover;';
+          
+          const removeBtn = document.createElement('button');
+          removeBtn.textContent = '×';
+          removeBtn.style.cssText = `
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #ef4444;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          `;
+          removeBtn.onclick = () => {
+            const photoIndex = AppState.uploadedPhotos.findIndex(p => p.url === e.target.result);
+            if (photoIndex > -1) {
+              AppState.uploadedPhotos.splice(photoIndex, 1);
+            }
+            photoCard.remove();
+          };
+          
+          photoCard.appendChild(img);
+          photoCard.appendChild(removeBtn);
+          previewContainer.appendChild(photoCard);
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // Toast Notification System
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.style.cssText = `
+        background: ${type === 'success' ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #ef4444, #dc2626)'};
+        color: white;
+        padding: 16px 24px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        font-weight: 600;
+        animation: slideIn 0.3s ease-out;
+      `;
+      toast.textContent = message;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.animation = 'slideOut 0.3s ease-out';
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    // Navigation System
+    function navigateTo(screenName) {
+      // Hide all screens
+      document.querySelectorAll('.screen-content').forEach(screen => {
+        screen.classList.remove('active');
+      });
+
+      // Show selected screen
+      const targetScreen = document.getElementById(`screen-${screenName}`);
+      if (targetScreen) {
+        targetScreen.classList.add('active');
+        
+        // Update selector
+        const selector = document.getElementById('screen-selector');
+        if (selector) {
+          selector.value = screenName;
+        }
+
+        // Update navigation based on authentication
+        updateNavigation();
+
+        // Scroll to top
+        window.scrollTo(0, 0);
+      }
+    }
+
+    function updateNavigation() {
+      const navActions = document.getElementById('nav-actions');
+      const currentScreen = document.querySelector('.screen-content.active');
+      
+      // Check if user is "authenticated" (on dashboard or related screens)
+      const authenticatedScreens = ['dashboard', 'community', 'issues', 'issue-detail', 'report-issue', 
+                                    'announcements', 'announcement-detail', 'create-announcement',
+                                    'forum', 'thread-detail', 'create-thread', 'documents', 'quests',
+                                    'channels', 'notifications', 'profile', 'profile-edit', 'profile-homes',
+                                    'home-members', 'settings', 'security', 'notifications-settings', 'activity',
+                                    'admin', 'admin-members', 'admin-verify', 'admin-documents', 'admin-quests', 'my-homes'];
+      
+      const currentScreenId = currentScreen ? currentScreen.id.replace('screen-', '') : '';
+      const isAuthenticated = authenticatedScreens.includes(currentScreenId);
+
+      if (isAuthenticated) {
+        navActions.innerHTML = `
+          <button class="btn btn-ghost" onclick="navigateTo('dashboard')">Dashboard</button>
+          <button class="btn btn-ghost" onclick="navigateTo('notifications')">🔔 <span class="tab-badge" style="margin-left: 4px;">2</span></button>
+          <button class="btn btn-primary" onclick="navigateTo('profile')">Profile</button>
+          <button class="btn btn-ghost" onclick="handleLogout()">Logout</button>
+        `;
+      } else {
+        navActions.innerHTML = `
+          <button class="btn btn-ghost" onclick="navigateTo('home')">Home</button>
+          <button class="btn btn-primary" onclick="navigateTo('signin')">Sign In</button>
+        `;
+      }
+    }
+
+    // Form Handlers
+    function handleSignIn(event) {
+      event.preventDefault();
+      showToast('Signing in...');
+      setTimeout(() => {
+        AppState.isAuthenticated = true;
+        AppState.currentUser = { name: 'Alex Davis', email: 'alex.davis@email.com' };
+        navigateTo('dashboard');
+        showToast('Welcome back, Alex!');
+      }, 1000);
+    }
+
+    function handleSignUp(event) {
+      event.preventDefault();
+      const name = document.getElementById('signup-name').value;
+      showToast('Creating your account...');
+      setTimeout(() => {
+        navigateTo('verify-email');
+        showToast('Verification code sent to your email');
+      }, 1000);
+    }
+
+    function handleForgotPassword(event) {
+      event.preventDefault();
+      showToast('Reset code sent to your email');
+      setTimeout(() => navigateTo('verify-email'), 1000);
+    }
+
+    function handleVerifyEmail(event) {
+      event.preventDefault();
+      showToast('Email verified successfully!');
+      setTimeout(() => navigateTo('onboarding'), 1000);
+    }
+
+    function handleCreateCommunity(event) {
+      event.preventDefault();
+      const name = document.getElementById('create-name').value;
+      showToast(`Creating ${name}...`);
+      setTimeout(() => {
+        showToast('Community created successfully!');
+        navigateTo('dashboard');
+      }, 1500);
+    }
+
+    function handleJoinCommunity(event) {
+      event.preventDefault();
+      const code = document.getElementById('join-code').value;
+      showToast('Verifying your home access code...');
+      setTimeout(() => {
+        document.getElementById('verified-home-name').textContent = 'Unit A-302';
+        document.getElementById('verified-home-building').textContent = 'Tower A, Floor 3';
+        document.getElementById('verified-community-name').textContent = 'Sunset Valley Residences';
+        document.getElementById('verified-home-address').textContent = '123 Valley Street, Downtown';
+        document.getElementById('verified-user-role').textContent = 'Home Admin';
+        navigateTo('home-verified');
+        showToast('Home verified successfully!');
+      }, 1500);
+    }
+
+    function handleReportIssue(event) {
+      event.preventDefault();
+      const title = document.getElementById('issue-title').value;
+      showToast('Submitting your issue...');
+      setTimeout(() => {
+        AppState.uploadedPhotos = [];
+        document.getElementById('photo-preview').innerHTML = '';
+        event.target.reset();
+        navigateTo('issues');
+        showToast(`Issue "${title}" reported successfully!`);
+      }, 1000);
+    }
+
+    function handleCreateAnnouncement(event) {
+      event.preventDefault();
+      const title = document.getElementById('announcement-title').value;
+      showToast('Publishing announcement...');
+      setTimeout(() => {
+        event.target.reset();
+        navigateTo('announcements');
+        showToast(`Announcement "${title}" published!`);
+      }, 1000);
+    }
+
+    function handleCreateThread(event) {
+      event.preventDefault();
+      const title = document.getElementById('thread-title').value;
+      showToast('Creating thread...');
+      setTimeout(() => {
+        event.target.reset();
+        navigateTo('forum');
+        showToast(`Thread "${title}" created!`);
+      }, 1000);
+    }
+
+    function handleAddComment(event) {
+      event.preventDefault();
+      showToast('Comment posted successfully!');
+      event.target.reset();
+    }
+
+    function handleReplyThread(event) {
+      event.preventDefault();
+      showToast('Reply posted successfully!');
+      event.target.reset();
+    }
+
+    function handleUpdateProfile(event) {
+      event.preventDefault();
+      showToast('Updating profile...');
+      setTimeout(() => {
+        navigateTo('profile');
+        showToast('Profile updated successfully!');
+      }, 1000);
+    }
+
+    function handleChangePassword(event) {
+      event.preventDefault();
+      showToast('Updating password...');
+      setTimeout(() => {
+        event.target.reset();
+        showToast('Password changed successfully!');
+      }, 1000);
+    }
+
+    function handleLogout() {
+      showToast('Logging out...');
+      setTimeout(() => {
+        AppState.isAuthenticated = false;
+        AppState.currentUser = null;
+        navigateTo('home');
+        showToast('Logged out successfully');
+      }, 800);
+    }
+
+    // Utility Functions
+    function moveToNext(input, index) {
+      if (input.value.length === 1) {
+        const inputs = document.querySelectorAll('.code-input');
+        if (index < inputs.length - 1) {
+          inputs[index + 1].focus();
+        }
+      }
+    }
+
+    function resendCode() {
+      showToast('Verification code resent!');
+    }
+
+    function switchTab(tabElement, contentId) {
+      // Update tabs
+      document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+      tabElement.classList.add('active');
+
+      // Update content
+      document.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.remove('active-tab');
+      });
+      const targetContent = document.getElementById(`tab-${contentId}`);
+      if (targetContent) {
+        targetContent.classList.add('active-tab');
+      }
+    }
+
+    function toggleSwitch(element) {
+      element.classList.toggle('active');
+    }
+
+    function filterCommunities(chip, category) {
+      // Update active chip
+      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+
+      // Filter cards
+      const cards = document.querySelectorAll('.community-card');
+      cards.forEach(card => {
+        if (category === 'all' || card.dataset.category === category) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function filterMembers(chip, role) {
+      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+
+      const members = document.querySelectorAll('.member-item');
+      members.forEach(member => {
+        if (role === 'all' || member.dataset.role === role) {
+          member.style.display = 'flex';
+        } else {
+          member.style.display = 'none';
+        }
+      });
+    }
+
+    function performSearch(query) {
+      const results = document.getElementById('search-results');
+      if (!query) {
+        results.innerHTML = '<div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-title">Start typing to search</div><div class="empty-description">Search for communities by name, location, or category</div></div>';
+        return;
+      }
+
+      // Simulate search results
+      results.innerHTML = `
+        <div class="community-card" onclick="navigateTo('join-community')">
+          <div class="community-icon">🏢</div>
+          <h3 class="community-name">Sunset Valley Residences</h3>
+          <div class="community-meta">Downtown · Condominium</div>
+          <p class="community-description">Modern residential complex with great amenities in the heart of downtown.</p>
+          <div class="community-stats">
+            <span>👥 248 members</span>
+            <span>⭐ 4.8 rating</span>
+          </div>
+        </div>
+      `;
+    }
+
+    function searchMembers(query) {
+      const members = document.querySelectorAll('#members-list .member-item');
+      members.forEach(member => {
+        const name = member.querySelector('.member-name').textContent.toLowerCase();
+        if (name.includes(query.toLowerCase())) {
+          member.style.display = 'flex';
+        } else {
+          member.style.display = 'none';
+        }
+      });
+    }
+
+    function markAllAsRead() {
+      document.querySelectorAll('.notification-item').forEach(item => {
+        item.classList.remove('unread');
+      });
+      showToast('All notifications marked as read');
+    }
+
+    function approveVerification(name) {
+      showToast(`${name} approved and added to community`);
+    }
+
+    function rejectVerification(name) {
+      showToast(`${name}'s application rejected`, 'error');
+    }
+
+    function handleUploadDocument() {
+      showToast('Document upload feature coming soon');
+    }
+
+    function handleDeleteDocument(name) {
+      showToast(`${name} deleted`, 'error');
+    }
+
+    function showCreateQuestModal() {
+      showToast('Quest creation feature coming soon');
+    }
+
+    function toggleQuestStatus(button) {
+      if (button.textContent.includes('Pause')) {
+        button.textContent = 'Resume';
+        button.classList.remove('btn-secondary');
+        button.classList.add('btn-success');
+        showToast('Quest paused');
+      } else {
+        button.textContent = 'Pause';
+        button.classList.remove('btn-success');
+        button.classList.add('btn-secondary');
+        showToast('Quest resumed');
+      }
+    }
+
+    function showAddMemberModal() {
+      showToast('Add member feature coming soon');
+    }
+
+    function showAddHomeMemberModal() {
+      showToast('Add home member feature coming soon');
+    }
+
+    function manageHomeMember(name) {
+      showToast(`Managing ${name}'s access`);
+    }
+
+    function copyAccessCode(code) {
+      navigator.clipboard.writeText(code).then(() => {
+        showToast('Access code copied to clipboard!');
+      });
+    }
+
+    function revokeAccessCode(code) {
+      showToast('Access code revoked', 'error');
+    }
+
+    function generateGuestCode() {
+      showToast('Guest access code generated!');
+    }
+
+    function viewHomeDetails(unit) {
+      showToast(`Viewing details for ${unit}`);
+    }
+
+    function enableTwoFactor() {
+      showToast('Two-factor authentication enabled');
+    }
+
+    function saveNotificationSettings() {
+      showToast('Notification preferences saved');
+    }
+
+    // Initialize app
+    document.addEventListener('DOMContentLoaded', () => {
+      navigateTo('home');
+    });
+</script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a447e196136d94c',t:'MTc2NDEwODc5OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
